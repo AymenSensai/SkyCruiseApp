@@ -8,8 +8,19 @@ class TextStyles {
       fontSize: 16.sp,
       fontWeight: FontWeightHelper.regular,
       color: ColorsManager.neutral200);
+
   static TextStyle font16Neutral900Medium = TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeightHelper.medium,
       color: ColorsManager.neutral900);
+
+  static TextStyle font12Neutral900Medium = TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.neutral900);
+
+  static TextStyle font12Primary500Medium = TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.primary500);
 }
