@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sky_cruise/core/routing/app_router.dart';
-import 'package:sky_cruise/core/routing/routes.dart';
 import 'package:sky_cruise/core/theming/theme.dart';
+import 'package:sky_cruise/core/widgets/app_home.dart';
 
 class SkyCruiseApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -16,10 +16,11 @@ class SkyCruiseApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'SkyCruise',
-            theme: ThemeManager.getAppLightTheme(),
-            onGenerateRoute: appRouter.generateRoute,
-            initialRoute: Routes.welcome));
+          debugShowCheckedModeBanner: false,
+          title: 'SkyCruise',
+          theme: ThemeManager.getAppLightTheme(),
+          onGenerateRoute: appRouter.generateRoute,
+          home: const AppHome(),
+        ));
   }
 }

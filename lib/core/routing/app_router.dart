@@ -6,6 +6,10 @@ import 'package:sky_cruise/features/authentication/presentation/screens/forget_p
 import 'package:sky_cruise/features/authentication/presentation/screens/sign_in_screen.dart';
 import 'package:sky_cruise/features/authentication/presentation/screens/sign_up_screen.dart';
 import 'package:sky_cruise/features/authentication/presentation/screens/welcome_screen.dart';
+import 'package:sky_cruise/features/home/presentation/screens/Home.dart';
+import 'package:sky_cruise/features/profile/presentation/screens/profile.dart';
+import 'package:sky_cruise/features/saved/presentation/screens/saved.dart';
+import 'package:sky_cruise/features/trips/presentation/screens/trips.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
@@ -25,6 +29,15 @@ class AppRouter {
       case Routes.confirmNewPassword:
         return MaterialPageRoute(
             builder: (_) => const ConfirmNewPasswordScreen());
+
+      case Routes.home:
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case Routes.saved:
+        return MaterialPageRoute(builder: (_) => const SavedScreen());
+      case Routes.trips:
+        return MaterialPageRoute(builder: (_) => const TripsScreen());
+      case Routes.profile:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
 
       default:
         return MaterialPageRoute(
