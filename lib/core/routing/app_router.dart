@@ -19,7 +19,7 @@ class AppRouter {
       case Routes.signUp:
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case Routes.forgetPassword:
-        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
+        return MaterialPageRoute(builder: (_) =>       ForgetPasswordScreen());
       case Routes.confirmOtp:
         return MaterialPageRoute(builder: (_) => const ConfirmOtpScreen());
       case Routes.confirmNewPassword:
