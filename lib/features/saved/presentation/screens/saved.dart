@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
-import '../../../../core/widgets/app_text_button.dart';
+import '../../../../core/widgets/search_text_button.dart';
 
 class SavedScreen extends StatelessWidget {
   const SavedScreen({super.key});
@@ -13,6 +13,7 @@ class SavedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Saved')),
       body: SafeArea(
           child: Center(
         child: SingleChildScrollView(
@@ -36,25 +37,14 @@ class SavedScreen extends StatelessWidget {
           'Save what you like for later',
           style: TextStyles.font20Neutral900Bold,
         ),
-        verticalSpace(32),
+        verticalSpace(24),
         Text(
           'Create lists of your favorite flights to help you share, compare and book.',
           style: TextStyles.font14Neutral900Regular,
           textAlign: TextAlign.center,
         ),
-        verticalSpace(32),
-        AppTextButton(
-          buttonHeight: 38,
-          buttonWidth: 148.w,
-          buttonText: 'Start your search',
-          textStyle: TextStyles.font12Neutral50Semibold,
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          onPressed: () {},
-        )
+        verticalSpace(24),
+        const SearchTextButton()
       ],
     );
   }

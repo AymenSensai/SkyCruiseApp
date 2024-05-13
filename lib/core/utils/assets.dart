@@ -22,6 +22,8 @@ abstract class Assets {
 
   static const String savedIllustration = 'assets/svgs/saved_illustration.svg';
 
+  static const String tripsIllustration = 'assets/svgs/trips_illustration.svg';
+
   static const String airplaneDashes = 'assets/svgs/airplane_dashes.svg';
   static const String dashes = 'assets/svgs/dashes.svg';
   static const String airAlgerieLogo = 'assets/images/air_algerie_logo.png';
