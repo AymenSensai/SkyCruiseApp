@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sky_cruise/core/networking/api_constants.dart';
+import '../networking/api_constants.dart';
 
 extension Navigation on BuildContext {
   Future<dynamic> pushNamed(String routeName, {Object? arguments}) {
@@ -22,6 +22,10 @@ extension Navigation on BuildContext {
 
 extension NetworkImage on BuildContext {
   Widget networkImage(String image, {double? width, double? height}) =>
-      Image.network("${ApiConstants.apiBaseUrl}$image",
-          width: width, height: height, fit: BoxFit.contain);
+      Image.network(
+        "${ApiConstants.apiBaseUrl}$image",
+        width: width,
+        height: height,
+        fit: BoxFit.contain,
+      );
 }

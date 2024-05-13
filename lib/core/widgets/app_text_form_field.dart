@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
-import 'package:sky_cruise/core/theming/styles.dart';
+
+import '../theming/colors.dart';
+import '../theming/styles.dart';
 
 class AppTextField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
@@ -16,20 +17,21 @@ class AppTextField extends StatelessWidget {
   final Color? backgroundColor;
   final TextEditingController? controller;
   final Function(String?) validator;
-  const AppTextField(
-      {super.key,
-      this.contentPadding,
-      this.focusedBorder,
-      this.enabledBorder,
-      this.inputTextStyle,
-      this.hintStyle,
-      required this.hintText,
-      this.isObscureText,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.backgroundColor,
-      this.controller,
-      required this.validator});
+  const AppTextField({
+    super.key,
+    this.contentPadding,
+    this.focusedBorder,
+    this.enabledBorder,
+    this.inputTextStyle,
+    this.hintStyle,
+    required this.hintText,
+    this.isObscureText,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.backgroundColor,
+    this.controller,
+    required this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
