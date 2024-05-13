@@ -9,6 +9,16 @@ class TextStyles {
       fontWeight: FontWeightHelper.bold,
       color: ColorsManager.neutral900);
 
+  static TextStyle font16Neutral900Semibold = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeightHelper.semiBold,
+      color: ColorsManager.neutral900);
+
+  static TextStyle font16Primary500Semibold = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeightHelper.semiBold,
+      color: ColorsManager.primary500);
+
   static TextStyle font16Neutral50Semibold = TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeightHelper.semiBold,
@@ -32,6 +42,11 @@ class TextStyles {
   static TextStyle font14Neutral900Medium = TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.neutral900);
+
+  static TextStyle font14Neutral900Regular = TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeightHelper.regular,
       color: ColorsManager.neutral900);
 
   static TextStyle font12Neutral50Semibold = TextStyle(
@@ -74,6 +89,11 @@ class TextStyles {
       fontWeight: FontWeightHelper.regular,
       color: ColorsManager.neutral900);
 
+  static TextStyle font12Neutral300Regular = TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeightHelper.regular,
+      color: ColorsManager.neutral300);
+
   static TextStyle font12Neutral700Regular = TextStyle(
       fontSize: 12.sp,
       fontWeight: FontWeightHelper.regular,
@@ -88,6 +108,16 @@ class TextStyles {
       fontSize: 12.sp,
       fontWeight: FontWeightHelper.light,
       color: ColorsManager.neutral900);
+
+  static TextStyle font11Primary500Regular = TextStyle(
+      fontSize: 11.sp,
+      fontWeight: FontWeightHelper.regular,
+      color: ColorsManager.primary500);
+
+  static TextStyle font11Neutral300Regular = TextStyle(
+      fontSize: 11.sp,
+      fontWeight: FontWeightHelper.regular,
+      color: ColorsManager.neutral300);
 
   static TextStyle font10Neutral500Regular = TextStyle(
       fontSize: 10.sp,
