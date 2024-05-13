@@ -2,7 +2,7 @@ class ApiConstants {
   static const String apiBaseUrl = "http://192.168.1.5:8000/";
 
   static const String login = "auth/login";
-  static const String signup = "auth/register";
+  static const String register = "auth/register";
 }
 
 class ApiErrors {

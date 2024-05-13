@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
-import 'package:sky_cruise/core/theming/font_weight_helper.dart';
+import 'colors.dart';
+import 'font_weight_helper.dart';
 
 abstract class ThemeManager {
   static ThemeData getAppLightTheme() {
@@ -13,7 +13,8 @@ abstract class ThemeManager {
         elevation: 0,
         color: ColorsManager.primary500,
         iconTheme: IconThemeData(color: ColorsManager.neutral50),
-        centerTitle: true,
+        centerTitle: false,
+        titleSpacing: 24,
         titleTextStyle: TextStyle(
             fontSize: 20,
             fontWeight: FontWeightHelper.bold,
@@ -21,8 +22,8 @@ abstract class ThemeManager {
             fontFamily: 'Inter'),
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: ColorsManager.primary500,
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.dark),
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.light),
       ),
     );
   }

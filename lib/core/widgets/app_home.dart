@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
-import 'package:sky_cruise/core/theming/styles.dart';
-import 'package:sky_cruise/core/utils/assets.dart';
-import 'package:sky_cruise/features/home/presentation/screens/Home.dart';
-import 'package:sky_cruise/features/profile/presentation/screens/profile.dart';
-import 'package:sky_cruise/features/saved/presentation/screens/saved.dart';
-import 'package:sky_cruise/features/trips/presentation/screens/trips.dart';
+import '../theming/colors.dart';
+import '../theming/styles.dart';
+import '../utils/assets.dart';
+import '../../features/home/presentation/screens/Home.dart';
+import '../../features/profile/presentation/screens/profile.dart';
+import '../../features/saved/presentation/screens/saved.dart';
+import '../../features/trips/presentation/screens/trips.dart';
 
 class AppHome extends StatefulWidget {
   const AppHome({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/routing/app_router.dart';
-import 'package:sky_cruise/core/theming/theme.dart';
-import 'package:sky_cruise/core/widgets/app_home.dart';
+import 'core/routing/app_router.dart';
+import 'core/theming/theme.dart';
+import 'core/widgets/app_home.dart';
 
 class SkyCruiseApp extends StatelessWidget {
   final AppRouter appRouter;
