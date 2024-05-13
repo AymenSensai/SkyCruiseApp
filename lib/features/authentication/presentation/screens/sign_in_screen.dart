@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
+import '../../../../core/theming/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/widgets/app_text_form_field.dart';
-import 'package:sky_cruise/core/routing/routes.dart';
-import 'package:sky_cruise/core/widgets/app_text_button.dart';
-import 'package:sky_cruise/core/widgets/custom_quick_alert.dart';
-import 'package:sky_cruise/core/utils/email_validator.dart';
-import 'package:sky_cruise/core/utils/password_validator.dart';
+import '../../../../core/widgets/app_text_form_field.dart';
+import '../../../../core/routing/routes.dart';
+import '../../../../core/widgets/app_text_button.dart';
+import '../../../../core/widgets/custom_quick_alert.dart';
+import '../../../../core/utils/email_validator.dart';
+import '../../../../core/utils/password_validator.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});

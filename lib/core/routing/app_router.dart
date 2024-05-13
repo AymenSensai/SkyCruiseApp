@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../features/profile/presentation/screens/notificationSettings.dart';
 import '../../features/search/presentation/screens/search.dart';
 import 'routes.dart';
 import '../../features/authentication/presentation/screens/confirm_new_password.dart';
@@ -26,7 +27,7 @@ class AppRouter {
       case Routes.signUp:
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case Routes.forgetPassword:
-        return MaterialPageRoute(builder: (_) =>       ForgetPasswordScreen());
+        return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
       case Routes.confirmOtp:
         return MaterialPageRoute(builder: (_) => const ConfirmOtpScreen());
       case Routes.confirmNewPassword:
@@ -45,8 +46,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SavedScreen());
       case Routes.trips:
         return MaterialPageRoute(builder: (_) => const TripsScreen());
+
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case Routes.notificationSettings:
+        return MaterialPageRoute(
+            builder: (_) => const NotificationSettingsScreen());
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
