@@ -123,7 +123,7 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                         verticalSpace(24),
-                        _searchButton(),
+                        _searchButton(context),
                       ],
                     ),
                   )
@@ -214,10 +214,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _searchButton() {
+  Widget _searchButton(BuildContext context) {
     return AppTextButton(
       buttonText: 'Search flight',
-      onPressed: () {},
+      onPressed: () => context.pushNamed(Routes.search),
     );
   }
 }
