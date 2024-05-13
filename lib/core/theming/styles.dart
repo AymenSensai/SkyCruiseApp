@@ -14,6 +14,11 @@ class TextStyles {
       fontWeight: FontWeightHelper.bold,
       color: ColorsManager.neutral900);
 
+  static TextStyle font18Neutral900Medium = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.neutral900);
+
   static TextStyle font16Neutral900Semibold = TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeightHelper.semiBold,
@@ -48,6 +53,11 @@ class TextStyles {
       fontSize: 14.sp,
       fontWeight: FontWeightHelper.medium,
       color: ColorsManager.neutral900);
+
+  static TextStyle font14Neutral700Medium = TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.neutral700);
 
   static TextStyle font14Neutral900Regular = TextStyle(
       fontSize: 14.sp,

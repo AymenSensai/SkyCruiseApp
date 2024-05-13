@@ -20,6 +20,7 @@ class ColorsManager {
 
   static const Color neutral50 = Color(0xffffffff);
   static Color neutral100opac20 = const Color(0xffD4D4D4).withOpacity(0.2);
+  static const Color neutral100 = Color(0xffD4D4D4);
   static const Color neutral200 = Color(0xffC0C0C0);
   static const Color neutral300 = Color(0xffA3A3A3);
   static const Color neutral400 = Color(0xff919191);

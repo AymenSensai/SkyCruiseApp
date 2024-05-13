@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../networking/api_constants.dart';
 
 extension Navigation on BuildContext {

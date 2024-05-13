@@ -29,6 +29,18 @@ abstract class Assets {
   static const String airAlgerieLogo = 'assets/images/air_algerie_logo.png';
   static const String overlay = 'assets/svgs/overlay.svg';
 
+  static const String moon = 'assets/svgs/moon.svg';
+  static const String language = 'assets/svgs/language.svg';
+  static const String card = 'assets/svgs/card.svg';
+  static const String passengersSettings =
+      'assets/svgs/passengers_settings.svg';
+  static const String security = 'assets/svgs/security.svg';
+  static const String support = 'assets/svgs/support.svg';
+  static const String signOut = 'assets/svgs/sign_out.svg';
+  static const String profileSettings = 'assets/svgs/profile_settings.svg';
+  static const String notificationSettings =
+      'assets/svgs/notification_settings.svg';
+
   //This is dummy icons for notification screen.
   // TODO: Delete this after and don't forget to delete the icons also from assets folder
   static const String wallet = 'assets/svgs/wallet.svg';
