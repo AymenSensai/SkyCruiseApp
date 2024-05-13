@@ -30,6 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_spinkit: ^5.2.1
+  pinput: ^4.0.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -92,8 +95,9 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/svgs/
     - assets/images/
+    - assets/svgs/
+        
 
   fonts:
     - family: Inter
