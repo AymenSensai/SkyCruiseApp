@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/theming/styles.dart';
-import 'package:sky_cruise/core/widgets/app_text_button.dart';
+import '../theming/styles.dart';
+import 'app_text_button.dart';
 
 class SearchTextButton extends StatelessWidget {
   const SearchTextButton({super.key});

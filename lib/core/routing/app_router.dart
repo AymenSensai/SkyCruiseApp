@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../features/search/presentation/screens/search.dart';
 import 'routes.dart';
 import '../../features/authentication/presentation/screens/confirm_new_password.dart';
 import '../../features/authentication/presentation/screens/confirm_otp_screen.dart';
@@ -46,6 +47,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TripsScreen());
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
+
+      case Routes.search:
+        return MaterialPageRoute(builder: (_) => const SearchScreen());
 
       default:
         return MaterialPageRoute(

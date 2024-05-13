@@ -13,4 +13,6 @@ class Routes {
   static const String saved = '/saved';
   static const String trips = '/trips';
   static const String profile = '/profile';
+
+  static const String search = '/search';
 }
