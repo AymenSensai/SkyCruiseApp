@@ -20,7 +20,7 @@ extension Navigation on BuildContext {
   void pop() => Navigator.of(this).pop();
 }
 
-extension NetworkImage on BuildContext {
+extension NetworkImage on Widget {
   Widget networkImage(String image, {double? width, double? height}) =>
       Image.network(
         "${ApiConstants.apiBaseUrl}$image",

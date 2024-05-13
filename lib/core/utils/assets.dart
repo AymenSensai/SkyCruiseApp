@@ -20,6 +20,13 @@ abstract class Assets {
 
   static const String search = 'assets/svgs/search.svg';
 
+  static const String savedIllustration = 'assets/svgs/saved_illustration.svg';
+
+  static const String airplaneDashes = 'assets/svgs/airplane_dashes.svg';
+  static const String dashes = 'assets/svgs/dashes.svg';
+  static const String airAlgerieLogo = 'assets/images/air_algerie_logo.png';
+  static const String overlay = 'assets/svgs/overlay.svg';
+
   //This is dummy icons for notification screen.
   // TODO: Delete this after and don't forget to delete the icons also from assets folder
   static const String wallet = 'assets/svgs/wallet.svg';
