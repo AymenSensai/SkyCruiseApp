@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
+import '../theming/colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CustomQuickAlert extends StatelessWidget {
