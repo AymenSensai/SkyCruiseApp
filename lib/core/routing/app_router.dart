@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_home.dart';
-import '../../features/search/presentation/screens/search.dart';
-import 'routes.dart';
+
 import '../../features/authentication/presentation/screens/confirm_new_password.dart';
 import '../../features/authentication/presentation/screens/confirm_otp_screen.dart';
 import '../../features/authentication/presentation/screens/forget_password_screen.dart';
@@ -11,9 +9,13 @@ import '../../features/authentication/presentation/screens/welcome_screen.dart';
 import '../../features/home/presentation/screens/Home.dart';
 import '../../features/home/presentation/screens/airport_search.dart';
 import '../../features/home/presentation/screens/notification.dart';
+import '../../features/profile/presentation/screens/notificationSettings.dart';
 import '../../features/profile/presentation/screens/profile.dart';
 import '../../features/saved/presentation/screens/saved.dart';
+import '../../features/search/presentation/screens/search.dart';
 import '../../features/trips/presentation/screens/trips.dart';
+import '../widgets/app_home.dart';
+import 'routes.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
