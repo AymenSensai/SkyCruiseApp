@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
+import '../../../../core/theming/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/widgets/app_text_form_field.dart';
-import 'package:sky_cruise/core/routing/routes.dart';
-import 'package:sky_cruise/core/widgets/app_text_button.dart';
-import 'package:sky_cruise/core/widgets/custom_quick_alert.dart';
-import 'package:sky_cruise/core/utils/password_validator.dart';
+import '../../../../core/widgets/app_text_form_field.dart';
+import '../../../../core/routing/routes.dart';
+import '../../../../core/widgets/app_text_button.dart';
+import '../../../../core/widgets/custom_quick_alert.dart';
+import '../../../../core/utils/password_validator.dart';
 
 class ConfirmNewPasswordScreen extends StatefulWidget {
   const ConfirmNewPasswordScreen({super.key});
@@ -177,8 +177,6 @@ class _ConfirmNewPasswordScreenState extends State<ConfirmNewPasswordScreen> {
                       AppTextButton(
                         borderRadius: 16.0,
                         backgroundColor: ColorsManager.primary500,
-                        horizontalPadding: 20.0,
-                        verticalPadding: 10.0,
                         buttonWidth: 330.0,
                         buttonText: 'Save New Password',
                         textStyle: const TextStyle(

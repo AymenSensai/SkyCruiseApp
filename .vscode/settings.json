@@ -4,6 +4,7 @@
         "fluttertoast",
         "Nang",
         "screenutil",
+        "svgs",
         "toggleable"
     ]
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_home.dart';
 import '../../features/search/presentation/screens/search.dart';
 import 'routes.dart';
 import '../../features/authentication/presentation/screens/confirm_new_password.dart';
@@ -26,7 +27,7 @@ class AppRouter {
       case Routes.signUp:
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case Routes.forgetPassword:
-        return MaterialPageRoute(builder: (_) =>       ForgetPasswordScreen());
+        return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
       case Routes.confirmOtp:
         return MaterialPageRoute(builder: (_) => const ConfirmOtpScreen());
       case Routes.confirmNewPassword:
@@ -50,6 +51,9 @@ class AppRouter {
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
+
+      case Routes.appHome:
+        return MaterialPageRoute(builder: (_) => const AppHome());
 
       default:
         return MaterialPageRoute(

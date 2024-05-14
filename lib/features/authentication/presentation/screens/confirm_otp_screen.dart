@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
-import 'package:sky_cruise/core/routing/routes.dart';
+import '../../../../core/theming/colors.dart';
+import '../../../../core/routing/routes.dart';
 import 'dart:async';
 
-import 'package:sky_cruise/core/widgets/app_text_form_field.dart';
+import '../../../../core/widgets/app_text_form_field.dart';
 
 class ConfirmOtpScreen extends StatefulWidget {
   const ConfirmOtpScreen({Key? key}) : super(key: key);
