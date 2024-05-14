@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
-import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/app_text_button.dart';
 import '../../../../core/widgets/custom_checkbox.dart';
 import '../widgets/email_section.dart';
+import '../widgets/have_account.dart';
 import '../widgets/map_section.dart';
 import '../widgets/password_section.dart';
 
@@ -57,12 +57,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         verticalSpace(16),
                         _rememberMe(context),
-                        Divider(
-                          color: ColorsManager.neutral100,
-                          height: 24.h,
+                        HaveAccount(
+                          text: 'Don’t have an account? ',
+                          actionText: 'Join us',
+                          action: () =>
+                              context.pushReplacementNamed(Routes.signUp),
                         ),
-                        verticalSpace(12),
-                        _haveAccount(context),
                         verticalSpace(24),
                         AppTextButton(
                           buttonText: 'Login',
@@ -80,28 +80,6 @@ class _SignInScreenState extends State<SignInScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Row _haveAccount(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Don’t have an account? ',
-          style: TextStyles.font14Neutral300Medium,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(Routes.signUp);
-          },
-          child: Text(
-            'Join us',
-            style: TextStyles.font14Primary500Medium,
-          ),
-        ),
-      ],
     );
   }
 

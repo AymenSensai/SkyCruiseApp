@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/app_regex.dart';
 import '../../../../core/utils/assets.dart';
@@ -31,7 +32,13 @@ class EmailSection extends StatelessWidget {
               horizontal: 16.w,
               vertical: 20.h,
             ),
-            child: SvgPicture.asset(Assets.email),
+            child: SvgPicture.asset(
+              Assets.email,
+              colorFilter: const ColorFilter.mode(
+                ColorsManager.neutral200,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
           validator: (value) {
             if (value == null ||

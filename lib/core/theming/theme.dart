@@ -12,6 +12,11 @@ abstract class ThemeManager {
       checkboxTheme: const CheckboxThemeData(
         side: BorderSide(width: 2, color: ColorsManager.neutral200),
       ),
+      radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.resolveWith((states) =>
+              states.contains(MaterialState.selected)
+                  ? ColorsManager.primary500
+                  : ColorsManager.primary300)),
       appBarTheme: const AppBarTheme(
         elevation: 0,
         color: ColorsManager.primary500,

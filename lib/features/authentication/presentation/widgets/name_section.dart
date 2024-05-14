@@ -8,21 +8,10 @@ import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 
-class PasswordSection extends StatefulWidget {
-  const PasswordSection({
-    super.key,
-    required this.passwordController,
-    required this.text,
-  });
+class NameSection extends StatelessWidget {
+  const NameSection({super.key, required this.nameController});
 
-  final TextEditingController passwordController;
-  final String text;
-  @override
-  State<PasswordSection> createState() => _PasswordSectionState();
-}
-
-class _PasswordSectionState extends State<PasswordSection> {
-  bool isObscureText = true;
+  final TextEditingController nameController;
 
   @override
   Widget build(BuildContext context) {
@@ -30,41 +19,29 @@ class _PasswordSectionState extends State<PasswordSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.text,
+          'Name',
           style: TextStyles.font18Primary900Medium,
         ),
         verticalSpace(16),
         AppTextField(
-          controller: widget.passwordController,
-          isObscureText: isObscureText,
-          hintText: 'Password',
+          controller: nameController,
+          hintText: 'Name',
           prefixIcon: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 16.w,
               vertical: 20.h,
             ),
             child: SvgPicture.asset(
-              Assets.password,
+              Assets.profileSolid,
               colorFilter: const ColorFilter.mode(
                 ColorsManager.neutral200,
                 BlendMode.srcIn,
               ),
             ),
           ),
-          suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                isObscureText = !isObscureText;
-              });
-            },
-            child: Icon(
-              isObscureText ? Icons.visibility_off : Icons.visibility,
-              color: ColorsManager.neutral200,
-            ),
-          ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter a valid password';
+              return 'Please enter your name';
             }
           },
         ),
