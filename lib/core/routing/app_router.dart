@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../features/profile/presentation/screens/notificationSettings.dart';
+import '../widgets/app_home.dart';
 import '../../features/search/presentation/screens/search.dart';
 import 'routes.dart';
 import '../../features/authentication/presentation/screens/confirm_new_password.dart';
@@ -55,6 +55,9 @@ class AppRouter {
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
+
+      case Routes.appHome:
+        return MaterialPageRoute(builder: (_) => const AppHome());
 
       default:
         return MaterialPageRoute(

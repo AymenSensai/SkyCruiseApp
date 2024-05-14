@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/helpers/extensions.dart';
+import '../../../../core/routing/app_router.dart';
 import '../../../../core/theming/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/widgets/app_home.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/app_text_button.dart';
@@ -247,47 +250,41 @@ class _SignInScreenState extends State<SignInScreen> {
                       const SizedBox(height: 32),
                       //login button
                       AppTextButton(
-                        borderRadius: 16.0,
-                        backgroundColor: ColorsManager.primary500,
-                        buttonWidth: 330.0,
                         buttonText: 'Login',
-                        textStyle: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
                         onPressed: () {
-                          Future.delayed(const Duration(seconds: 2), () {
-                            // verifies si le compte existe ou idk
-                            if (isValidEmail(emailController.text) &&
-                                isValidPassword(passwordController.text)) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return const CustomQuickAlert(
-                                    message: 'Sign in Successful!',
-                                    text:
-                                        'Please wait...You will be directed to the homepage',
-                                  );
-                                },
-                              );
-                              Future.delayed(const Duration(minutes: 60), () {
-                                //navigation to home page a corriger !!!
-                                Navigator.of(context)
-                                    .pushReplacementNamed(Routes.confirmOtp);
-                              });
-                            } else {
-                              print('err');
-                              // showDialog(
-                              //   context: context,
-                              //   builder: (BuildContext context) {
-                              //     return const CustomQuickAlert(
-                              //       message: 'Error! Invalid email or password.',
-                              //     );
-                              //   },
-                              // );
-                            }
-                          });
+                          context.pushReplacementNamed(Routes.appHome);
+                          // Future.delayed(const Duration(seconds: 2), () {
+                          //   // verifies si le compte existe ou idk
+                          //   if (isValidEmail(emailController.text) &&
+                          //       isValidPassword(passwordController.text)) {
+                          //     showDialog(
+                          //       context: context,
+                          //       builder: (BuildContext context) {
+                          //         return const CustomQuickAlert(
+                          //           message: 'Sign in Successful!',
+                          //           text:
+                          //               'Please wait...You will be directed to the homepage',
+                          //         );
+                          //       },
+                          //     );
+                          //     Future.delayed(const Duration(minutes: 60), () {
+                          //       //navigation to home page a corriger !!!
+                          //       Navigator.of(context)
+                          //           .pushReplacementNamed(Routes.confirmOtp);
+                          //     });
+                          //   } else {
+                          //     print('err');
+                          //     // showDialog(
+                          //     //   context: context,
+                          //     //   builder: (BuildContext context) {
+                          //     //     return const CustomQuickAlert(
+                          //     //       message: 'Error! Invalid email or password.',
+                          //     //     );
+                          //     //   },
+                          //     // );
+                          //   }
+                          // }
+                          // );
                         },
                       ),
                     ],

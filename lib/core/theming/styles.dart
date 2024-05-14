@@ -4,6 +4,11 @@ import 'colors.dart';
 import 'font_weight_helper.dart';
 
 class TextStyles {
+  static TextStyle font32Neutral900Bold = TextStyle(
+      fontSize: 32.sp,
+      fontWeight: FontWeightHelper.bold,
+      color: ColorsManager.neutral900);
+
   static TextStyle font20Neutral900Bold = TextStyle(
       fontSize: 20.sp,
       fontWeight: FontWeightHelper.bold,
@@ -58,6 +63,11 @@ class TextStyles {
       fontSize: 14.sp,
       fontWeight: FontWeightHelper.medium,
       color: ColorsManager.neutral700);
+
+  static TextStyle font14Neutral300Medium = TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.neutral300);
 
   static TextStyle font14Neutral900Regular = TextStyle(
       fontSize: 14.sp,

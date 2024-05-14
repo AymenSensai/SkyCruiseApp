@@ -17,4 +17,6 @@ class Routes {
   static const String notificationSettings = '/notificationSettings';
 
   static const String search = '/search';
+
+  static const String appHome = '/appHome';
 }

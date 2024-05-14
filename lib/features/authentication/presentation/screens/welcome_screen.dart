@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sky_cruise/core/helpers/extensions.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theming/styles.dart';
+import '../../../../core/utils/assets.dart';
 import '../../../../core/theming/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/widgets/app_text_button.dart';
@@ -15,7 +19,6 @@ class WelcomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: SizedBox(
           height: 766.h,
-          width: double.maxFinite,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -37,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'assets/svgs/img_circle.svg',
+                  Assets.leftCircle,
                   height: 135.h,
                   width: 99.h,
                   alignment: Alignment.bottomLeft,
@@ -49,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                 left: 10.h,
                 right: 0,
                 child: SvgPicture.asset(
-                  'assets/svgs/img_circle2.svg',
+                  Assets.rightCircle,
                   height: 135.h,
                   width: 71.h,
                   alignment: Alignment.topRight,
@@ -61,7 +64,7 @@ class WelcomeScreen extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'assets/svgs/img_clouds.svg',
+                  Assets.clouds,
                   height: screenHeight * 0.6,
                   width: 375.w,
                   alignment: Alignment.topCenter,
@@ -73,66 +76,40 @@ class WelcomeScreen extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'assets/svgs/img_wlcm_plane.svg',
+                  Assets.logo,
                   height: 222.h,
                   width: 217.w,
                   alignment: Alignment.topCenter,
+                  colorFilter: const ColorFilter.mode(
+                      ColorsManager.neutral50, BlendMode.srcIn),
                 ),
               ),
               // text and button
               Positioned(
                 top: screenHeight * 0.55,
-                left: 0,
-                right: 0,
+                left: 16.w,
+                right: 16.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 20,
+                    verticalSpace(16),
+                    Text(
+                      "Explore Exciting Destinations",
+                      style: TextStyles.font32Neutral900Bold,
+                      textAlign: TextAlign.center,
                     ),
-                    const Text(
-                      "Explore Exciting",
-                      style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    verticalSpace(14),
+                    Text(
+                      "SkyCruise: Book flights in seconds. Real-time updates, easy itinerary management, and secure payments. Your travel companion awaits.",
+                      style:
+                          TextStyles.font14Neutral300Medium.copyWith(height: 2),
+                      textAlign: TextAlign.center,
                     ),
-                    const Text(
-                      "Destinations",
-                      style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Padding(
-                      padding:
-                          EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                      child: Text(
-                        "SkyCruise: Book flights in seconds. Real-time updates, easy itinerary management, and secure payments. Your travel companion awaits.",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFFA3A3A3),
-                          fontWeight: FontWeight.normal,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                    ),
-                    const SizedBox(height: 40.0),
+                    verticalSpace(24),
                     AppTextButton(
-                      borderRadius: 16.0,
-                      backgroundColor: ColorsManager.primary500,
-                      buttonWidth: 330.0,
                       buttonText: 'Get Started',
-                      textStyle: const TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed(Routes.signIn);
+                        context.pushReplacementNamed(Routes.signIn);
                       },
                     ),
                   ],
