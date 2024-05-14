@@ -46,8 +46,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SavedScreen());
       case Routes.trips:
         return MaterialPageRoute(builder: (_) => const TripsScreen());
+
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case Routes.notificationSettings:
+        return MaterialPageRoute(
+            builder: (_) => const NotificationSettingsScreen());
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
