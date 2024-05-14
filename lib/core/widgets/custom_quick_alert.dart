@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../theming/colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../theming/colors.dart';
 
 class CustomQuickAlert extends StatelessWidget {
   final String message;

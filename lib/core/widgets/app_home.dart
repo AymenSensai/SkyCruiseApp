@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../theming/colors.dart';
-import '../theming/styles.dart';
-import '../utils/assets.dart';
+
 import '../../features/home/presentation/screens/Home.dart';
 import '../../features/profile/presentation/screens/profile.dart';
 import '../../features/saved/presentation/screens/saved.dart';
 import '../../features/trips/presentation/screens/trips.dart';
+import '../theming/colors.dart';
+import '../theming/styles.dart';
+import '../utils/assets.dart';
 
 class AppHome extends StatefulWidget {
   const AppHome({super.key});

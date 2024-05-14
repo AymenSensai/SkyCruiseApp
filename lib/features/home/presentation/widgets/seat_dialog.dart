@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dialog_action_buttons_row.dart';
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 
 class SeatDialog extends StatefulWidget {
@@ -57,10 +56,6 @@ class _SeatDialogState extends State<SeatDialog> {
           width: 20,
           child: Radio<int>(
             value: value,
-            fillColor: MaterialStateProperty.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorsManager.primary500
-                    : ColorsManager.primary300),
             groupValue: selectedSeat,
             toggleable: true,
             onChanged: (int? value) => setState(() => selectedSeat = value),
