@@ -9,6 +9,9 @@ abstract class ThemeManager {
       scaffoldBackgroundColor: ColorsManager.whiteBackground,
       primaryColor: ColorsManager.primary500,
       fontFamily: 'Inter',
+      checkboxTheme: const CheckboxThemeData(
+        side: BorderSide(width: 2, color: ColorsManager.neutral200),
+      ),
       appBarTheme: const AppBarTheme(
         elevation: 0,
         color: ColorsManager.primary500,

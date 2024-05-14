@@ -5,6 +5,11 @@ abstract class Assets {
   static const String rightCircle = 'assets/svgs/circle2.svg';
   static const String clouds = 'assets/svgs/img_clouds.svg';
 
+  static const String map = 'assets/images/map.png';
+
+  static const String email = 'assets/svgs/email.svg';
+  static const String password = 'assets/svgs/password.svg';
+
   static const String homeRegular = 'assets/svgs/home_regular.svg';
   static const String homeSolid = 'assets/svgs/home_solid.svg';
   static const String savedRegular = 'assets/svgs/saved_regular.svg';
