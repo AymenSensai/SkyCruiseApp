@@ -62,6 +62,7 @@ class _PasswordSectionState extends State<PasswordSection> {
               color: ColorsManager.neutral200,
             ),
           ),
+          keyboardType: TextInputType.visiblePassword,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter a valid password';
