@@ -65,12 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context.pushReplacementNamed(Routes.signIn),
                         ),
                         verticalSpace(24),
-                        AppTextButton(
-                          buttonText: 'Create Account',
-                          onPressed: () {
-                            context.pushNamed(Routes.appHome);
-                          },
-                        ),
+                        _createAccountButton(context),
                       ],
                     ),
                   ),
@@ -80,6 +75,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _createAccountButton(BuildContext context) {
+    return AppTextButton(
+      buttonText: 'Create Account',
+      onPressed: () {
+        context.pushNamed(Routes.appHome);
+      },
     );
   }
 }

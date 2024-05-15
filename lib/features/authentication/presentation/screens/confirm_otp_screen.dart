@@ -4,10 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/helpers/extensions.dart';
-import 'package:sky_cruise/core/routing/routes.dart';
 
+import '../../../../core/helpers/extensions.dart';
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../widgets/map_section.dart';
@@ -41,8 +41,8 @@ class _ConfirmOtpScreenState extends State<ConfirmOtpScreen> {
               bottom: 0,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 24.w, right: 24.w, bottom: 24.h, top: 24.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
                   child: Column(
                     children: [
                       _otpField(context),
