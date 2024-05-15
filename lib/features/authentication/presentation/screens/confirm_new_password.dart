@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/theming/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/widgets/app_text_form_field.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../../core/routing/routes.dart';
-import '../../../../core/widgets/app_text_button.dart';
-import '../../../../core/widgets/custom_quick_alert.dart';
+import '../../../../core/theming/colors.dart';
 import '../../../../core/utils/password_validator.dart';
+import '../../../../core/widgets/app_text_button.dart';
+import '../../../../core/widgets/app_text_form_field.dart';
+import '../../../../core/widgets/custom_quick_alert.dart';
 
 class ConfirmNewPasswordScreen extends StatefulWidget {
   const ConfirmNewPasswordScreen({super.key});

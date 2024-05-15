@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'colors.dart';
 import 'font_weight_helper.dart';
 
@@ -8,6 +9,11 @@ abstract class ThemeManager {
     return ThemeData(
       scaffoldBackgroundColor: ColorsManager.whiteBackground,
       primaryColor: ColorsManager.primary500,
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: ColorsManager.primary500,
+        selectionColor: ColorsManager.primary500,
+        selectionHandleColor: ColorsManager.primary500,
+      ),
       fontFamily: 'Inter',
       checkboxTheme: const CheckboxThemeData(
         side: BorderSide(width: 2, color: ColorsManager.neutral200),

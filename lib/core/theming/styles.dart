@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'colors.dart';
 import 'font_weight_helper.dart';
 
@@ -14,6 +15,11 @@ class TextStyles {
       fontWeight: FontWeightHelper.bold,
       color: ColorsManager.neutral50);
 
+  static TextStyle font22Neutral900Bold = TextStyle(
+      fontSize: 22.sp,
+      fontWeight: FontWeightHelper.bold,
+      color: ColorsManager.neutral900);
+
   static TextStyle font20Neutral900Bold = TextStyle(
       fontSize: 20.sp,
       fontWeight: FontWeightHelper.bold,
@@ -24,15 +30,25 @@ class TextStyles {
       fontWeight: FontWeightHelper.bold,
       color: ColorsManager.neutral900);
 
+  static TextStyle font18Primary900Medium = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.primary900);
+
   static TextStyle font18Neutral900Medium = TextStyle(
       fontSize: 18.sp,
       fontWeight: FontWeightHelper.medium,
       color: ColorsManager.neutral900);
 
-  static TextStyle font18Primary900Medium = TextStyle(
+  static TextStyle font18Primary500Regular = TextStyle(
       fontSize: 18.sp,
-      fontWeight: FontWeightHelper.medium,
-      color: ColorsManager.primary900);
+      fontWeight: FontWeightHelper.regular,
+      color: ColorsManager.primary500);
+
+  static TextStyle font18Neutral900Regular = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeightHelper.regular,
+      color: ColorsManager.neutral900);
 
   static TextStyle font16Neutral900Semibold = TextStyle(
       fontSize: 16.sp,
