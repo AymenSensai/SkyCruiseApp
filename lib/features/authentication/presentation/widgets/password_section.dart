@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/colors.dart';
@@ -38,19 +36,7 @@ class _PasswordSectionState extends State<PasswordSection> {
           controller: widget.passwordController,
           isObscureText: isObscureText,
           hintText: 'Password',
-          prefixIcon: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 20.h,
-            ),
-            child: SvgPicture.asset(
-              Assets.password,
-              colorFilter: const ColorFilter.mode(
-                ColorsManager.neutral200,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
+          prefixIcon: Assets.password,
           suffixIcon: GestureDetector(
             onTap: () {
               setState(() {

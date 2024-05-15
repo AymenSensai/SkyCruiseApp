@@ -80,12 +80,7 @@ class AirportSearchScreen extends StatelessWidget {
               AppTextField(
                 hintText: 'Search city or airport',
                 validator: (_) {},
-                prefixIcon: SvgPicture.asset(
-                  Assets.search,
-                  height: 16,
-                  width: 16,
-                  fit: BoxFit.scaleDown,
-                ),
+                prefixIcon: Assets.search,
               ),
               ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
