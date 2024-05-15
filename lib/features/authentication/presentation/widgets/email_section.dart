@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/app_regex.dart';
 import '../../../../core/utils/assets.dart';
@@ -40,19 +37,7 @@ class EmailTextField extends StatelessWidget {
     return AppTextField(
       controller: emailController,
       hintText: 'Email',
-      prefixIcon: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.w,
-          vertical: 20.h,
-        ),
-        child: SvgPicture.asset(
-          Assets.email,
-          colorFilter: const ColorFilter.mode(
-            ColorsManager.neutral200,
-            BlendMode.srcIn,
-          ),
-        ),
-      ),
+      prefixIcon: Assets.email,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value == null || value.isEmpty || !AppRegex.isEmailValid(value)) {

@@ -57,6 +57,8 @@ abstract class Assets {
   static const String english = 'assets/images/english.png';
   static const String french = 'assets/images/french.png';
 
+  static const String arrowDownward = 'assets/svgs/arrow_downward.svg';
+
   //This is dummy icons for notification screen.
   // TODO: Delete this after and don't forget to delete the icons also from assets folder
   static const String wallet = 'assets/svgs/wallet.svg';

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
@@ -26,19 +23,7 @@ class NameSection extends StatelessWidget {
         AppTextField(
           controller: nameController,
           hintText: 'Name',
-          prefixIcon: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 20.h,
-            ),
-            child: SvgPicture.asset(
-              Assets.profileSolid,
-              colorFilter: const ColorFilter.mode(
-                ColorsManager.neutral200,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
+          prefixIcon: Assets.profileSolid,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your name';

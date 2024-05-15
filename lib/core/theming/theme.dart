@@ -18,6 +18,8 @@ abstract class ThemeManager {
       checkboxTheme: const CheckboxThemeData(
         side: BorderSide(width: 2, color: ColorsManager.neutral200),
       ),
+      datePickerTheme:
+          DatePickerThemeData(backgroundColor: ColorsManager.whiteBackground),
       radioTheme: RadioThemeData(
           fillColor: MaterialStateProperty.resolveWith((states) =>
               states.contains(MaterialState.selected)

@@ -33,7 +33,11 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyles.font18Neutral900Medium,
               ),
               verticalSpace(12),
-              iconAndTextRow(Assets.profileSettings, 'Personal Info', () {}),
+              iconAndTextRow(
+                Assets.profileSettings,
+                'Personal Info',
+                () => context.pushNamed(Routes.personalInfo),
+              ),
               iconAndTextRow(
                 Assets.notificationSettings,
                 'Notifications',

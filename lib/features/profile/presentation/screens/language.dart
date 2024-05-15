@@ -5,6 +5,7 @@ import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/widgets/app_bar.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -18,9 +19,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Language'),
-      ),
+      appBar: const BackCenteredTitleAppBar(title: 'Language'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

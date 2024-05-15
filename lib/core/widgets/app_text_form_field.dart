@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theming/colors.dart';
 import '../theming/styles.dart';
@@ -12,8 +13,9 @@ class AppTextField extends StatelessWidget {
   final TextStyle? hintStyle;
   final String hintText;
   final bool? isObscureText;
-  final Widget? prefixIcon;
+  final String? prefixIcon;
   final Widget? suffixIcon;
+  final bool? readOnly;
   final Color? backgroundColor;
   final TextEditingController? controller;
   final Function(String?) validator;
@@ -28,6 +30,7 @@ class AppTextField extends StatelessWidget {
     this.isObscureText,
     this.prefixIcon,
     this.suffixIcon,
+    this.readOnly,
     this.backgroundColor,
     this.controller,
     this.keyboardType,
@@ -75,12 +78,27 @@ class AppTextField extends StatelessWidget {
           ),
           hintStyle: hintStyle ?? TextStyles.font16Neutral200Regular,
           hintText: hintText,
-          prefixIcon: prefixIcon,
+          prefixIcon: prefixIcon != null
+              ? Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 20.h,
+                  ),
+                  child: SvgPicture.asset(
+                    prefixIcon!,
+                    colorFilter: const ColorFilter.mode(
+                      ColorsManager.neutral200,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                )
+              : null,
           suffixIcon: suffixIcon,
           fillColor: backgroundColor ?? ColorsManager.neutral100opac20,
           filled: true,
         ),
         obscureText: isObscureText ?? false,
+        readOnly: readOnly ?? false,
         keyboardType: keyboardType,
         style: TextStyles.font16Neutral900Medium,
         cursorColor: ColorsManager.primary500,

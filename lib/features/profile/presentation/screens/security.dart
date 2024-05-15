@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
+import '../../../../core/widgets/app_bar.dart';
 import '../../../../core/widgets/app_text_button.dart';
 
 class SecurityScreen extends StatelessWidget {
@@ -13,9 +14,7 @@ class SecurityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Security'),
-      ),
+      appBar: const BackCenteredTitleAppBar(title: 'Security'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
