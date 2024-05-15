@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'core/widgets/app_home.dart';
 
 import 'core/routing/app_router.dart';
 import 'core/theming/theme.dart';
-import 'features/authentication/presentation/screens/welcome_screen.dart';
 
 class SkyCruiseApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -21,7 +21,7 @@ class SkyCruiseApp extends StatelessWidget {
           title: 'SkyCruise',
           theme: ThemeManager.getAppLightTheme(),
           onGenerateRoute: appRouter.generateRoute,
-          home: const WelcomeScreen(),
+          home: const AppHome(),
         ));
   }
 }
