@@ -65,12 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               context.pushReplacementNamed(Routes.signUp),
                         ),
                         verticalSpace(24),
-                        AppTextButton(
-                          buttonText: 'Login',
-                          onPressed: () {
-                            context.pushNamed(Routes.appHome);
-                          },
-                        ),
+                        _loginButton(context),
                       ],
                     ),
                   ),
@@ -84,7 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Row _rememberMe(BuildContext context) {
+  Widget _rememberMe(BuildContext context) {
     return Row(
       children: [
         const CustomCheckbox(),
@@ -103,6 +98,15 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _loginButton(BuildContext context) {
+    return AppTextButton(
+      buttonText: 'Login',
+      onPressed: () {
+        context.pushNamed(Routes.appHome);
+      },
     );
   }
 }

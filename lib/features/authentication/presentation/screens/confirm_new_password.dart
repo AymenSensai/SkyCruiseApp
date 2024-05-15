@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/routing/routes.dart';
-import '../../../../core/theming/colors.dart';
-import '../../../../core/utils/password_validator.dart';
+import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/app_text_button.dart';
-import '../../../../core/widgets/app_text_form_field.dart';
-import '../../../../core/widgets/custom_quick_alert.dart';
+import '../widgets/map_section.dart';
+import '../widgets/password_section.dart';
 
 class ConfirmNewPasswordScreen extends StatefulWidget {
   const ConfirmNewPasswordScreen({super.key});
@@ -18,208 +15,72 @@ class ConfirmNewPasswordScreen extends StatefulWidget {
 }
 
 class _ConfirmNewPasswordScreenState extends State<ConfirmNewPasswordScreen> {
-  bool isPasswordVisible = false;
-  bool? isChecked = false;
-
-  final TextEditingController newpasswordController1 = TextEditingController();
-  final TextEditingController newpasswordController2 = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmNewPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: 766.h,
-          width: double.maxFinite,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              //primary500
-              Container(
-                height: screenHeight * 0.33,
-                color: ColorsManager.primary500,
-              ),
-              // map
-              Positioned(
-                child: Image.asset(
-                  'assets/images/map.png',
-                  height: screenHeight * 0.3,
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                  alignment: Alignment.center,
-                ),
-              ),
-              // text
-              const Positioned(
-                top: 120,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 0, left: 20.0, right: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Confirm New Password",
-                        style: TextStyle(
-                          fontSize: 28,
-                          color: ColorsManager.whiteBackground,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Create your new password. if you forget it, then you have to do forgot password.",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: ColorsManager.whiteBackground,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        maxLines: 3,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //
-              Positioned(
-                top: screenHeight * 0.36,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 25),
-                  child: Column(
-                    children: [
-                      // password
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      body: SizedBox(
+        height: screenHeight,
+        child: Stack(
+          children: [
+            const MapSection(
+              title: "Welcome Back",
+              description:
+                  "We're excited to have you back, can't wait to see what you've been up to since you last logged in.",
+              isBackButton: false,
+            ),
+            Positioned(
+              top: screenHeight * 0.33,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 24.w, vertical: 24.h),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'New Password',
-                            style: TextStyle(
-                              color: ColorsManager.primary900,
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          SizedBox(height: 15.h),
-                          AppTextField(
-                            controller: newpasswordController1,
-                            hintText: 'Password',
-                            prefixIcon: Container(
-                              margin:
-                                  EdgeInsets.fromLTRB(16.h, 22.h, 15.h, 22.h),
-                              child: SvgPicture.asset(
-                                'assets/svgs/img_lock.svg',
-                                height: 14.h,
-                                width: 16.w,
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null ||
-                                  (!isValidPassword(value, isRequired: true))) {
-                                return "err_msg_please_enter_valid_password";
-                              }
-                              return null;
-                            },
-                            isObscureText: !isPasswordVisible,
-                          )
-                        ],
-                      ),
-                      // password
-                      Column(
-                        children: [
-                          const SizedBox(height: 25.0),
-                          // password
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Confirm New Password',
-                                style: TextStyle(
-                                  color: ColorsManager.primary900,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                              PasswordSection(
+                                passwordController: newPasswordController,
+                                text: 'New Password',
                               ),
-                              SizedBox(height: 15.h),
-                              AppTextField(
-                                controller: newpasswordController2,
-                                hintText: 'Password',
-                                prefixIcon: Container(
-                                  margin: EdgeInsets.fromLTRB(
-                                      16.h, 22.h, 15.h, 22.h),
-                                  child: SvgPicture.asset(
-                                    'assets/svgs/img_lock.svg',
-                                    height: 14.h,
-                                    width: 16.w,
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null ||
-                                      (!isValidPassword(value,
-                                          isRequired: true))) {
-                                    return "err_msg_please_enter_valid_password";
-                                  }
-                                  return null;
-                                },
-                                isObscureText: !isPasswordVisible,
-                              )
+                              verticalSpace(24),
+                              PasswordSection(
+                                passwordController:
+                                    confirmNewPasswordController,
+                                text: 'Confirm New Password',
+                              ),
                             ],
                           ),
+                          verticalSpace(48),
+                          _saveButton(context),
                         ],
                       ),
-                      const SizedBox(height: 177),
-                      //login button
-                      AppTextButton(
-                        borderRadius: 16.0,
-                        backgroundColor: ColorsManager.primary500,
-                        buttonWidth: 330.0,
-                        buttonText: 'Save New Password',
-                        textStyle: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const CustomQuickAlert(
-                                message: 'Reset Password Successful!',
-                                text:
-                                    'Please wait...You will be directed to the homepage',
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-              // back
-              Positioned(
-                top: 60,
-                left: 18,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushReplacementNamed(Routes.signIn);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: ColorsManager.whiteBackground,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _saveButton(BuildContext context) {
+    return AppTextButton(
+      buttonText: 'Save New Password',
+      onPressed: () {},
     );
   }
 }
