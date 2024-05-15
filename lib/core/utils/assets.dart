@@ -3,7 +3,7 @@ abstract class Assets {
 
   static const String leftCircle = 'assets/svgs/circle.svg';
   static const String rightCircle = 'assets/svgs/circle2.svg';
-  static const String clouds = 'assets/svgs/img_clouds.svg';
+  static const String clouds = 'assets/svgs/clouds.svg';
 
   static const String map = 'assets/images/map.png';
 
@@ -52,6 +52,10 @@ abstract class Assets {
   static const String profileSettings = 'assets/svgs/profile_settings.svg';
   static const String notificationSettings =
       'assets/svgs/notification_settings.svg';
+
+  static const String arabic = 'assets/images/arabic.png';
+  static const String english = 'assets/images/english.png';
+  static const String french = 'assets/images/french.png';
 
   //This is dummy icons for notification screen.
   // TODO: Delete this after and don't forget to delete the icons also from assets folder

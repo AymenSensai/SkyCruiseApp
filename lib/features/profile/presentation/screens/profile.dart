@@ -39,21 +39,25 @@ class ProfileScreen extends StatelessWidget {
                 () => context.pushNamed(Routes.notificationSettings),
               ),
               iconAndTextRow(Assets.security, 'Security', () {}),
-              iconAndTextRow(Assets.language, 'Language', () {},
-                  widget: Row(
-                    children: [
-                      Text(
-                        'English',
-                        style: TextStyles.font14Neutral700Medium,
-                      ),
-                      horizontalSpace(12),
-                      const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: ColorsManager.neutral900,
-                        size: 14,
-                      )
-                    ],
-                  )),
+              iconAndTextRow(
+                Assets.language,
+                'Language',
+                () => context.pushNamed(Routes.language),
+                widget: Row(
+                  children: [
+                    Text(
+                      'English',
+                      style: TextStyles.font14Neutral700Medium,
+                    ),
+                    horizontalSpace(12),
+                    const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: ColorsManager.neutral900,
+                      size: 14,
+                    )
+                  ],
+                ),
+              ),
               iconAndTextRow(
                 Assets.moon,
                 'Dark Mode',
@@ -89,27 +93,30 @@ class ProfileScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 12.h),
       child: GestureDetector(
         onTap: () => onTap(),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          SvgPicture.asset(
-            icon,
-            colorFilter: ColorFilter.mode(
-              color ?? ColorsManager.neutral900,
-              BlendMode.srcIn,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              colorFilter: ColorFilter.mode(
+                color ?? ColorsManager.neutral900,
+                BlendMode.srcIn,
+              ),
             ),
-          ),
-          horizontalSpace(16),
-          Text(
-            text,
-            style: TextStyles.font14Neutral900Medium.copyWith(color: color),
-          ),
-          const Spacer(),
-          widget ??
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: ColorsManager.neutral900,
-                size: 14,
-              )
-        ]),
+            horizontalSpace(16),
+            Text(
+              text,
+              style: TextStyles.font14Neutral900Medium.copyWith(color: color),
+            ),
+            const Spacer(),
+            widget ??
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: ColorsManager.neutral900,
+                  size: 14,
+                )
+          ],
+        ),
       ),
     );
   }
