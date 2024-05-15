@@ -12,6 +12,7 @@ import '../../features/home/presentation/screens/notification.dart';
 import '../../features/profile/presentation/screens/language.dart';
 import '../../features/profile/presentation/screens/notificationSettings.dart';
 import '../../features/profile/presentation/screens/profile.dart';
+import '../../features/profile/presentation/screens/security.dart';
 import '../../features/saved/presentation/screens/saved.dart';
 import '../../features/search/presentation/screens/search.dart';
 import '../../features/trips/presentation/screens/trips.dart';
@@ -57,6 +58,8 @@ class AppRouter {
             builder: (_) => const NotificationSettingsScreen());
       case Routes.language:
         return MaterialPageRoute(builder: (_) => const LanguageScreen());
+      case Routes.security:
+        return MaterialPageRoute(builder: (_) => const SecurityScreen());
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());

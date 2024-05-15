@@ -16,6 +16,7 @@ class Routes {
   static const String profile = '/profile';
   static const String notificationSettings = '/notificationSettings';
   static const String language = '/language';
+  static const String security = '/security';
 
   static const String search = '/search';
 

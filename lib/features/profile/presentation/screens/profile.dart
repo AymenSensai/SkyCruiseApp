@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../../core/helpers/extensions.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/routing/routes.dart';
+import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
-import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/switch.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -38,7 +39,11 @@ class ProfileScreen extends StatelessWidget {
                 'Notifications',
                 () => context.pushNamed(Routes.notificationSettings),
               ),
-              iconAndTextRow(Assets.security, 'Security', () {}),
+              iconAndTextRow(
+                Assets.security,
+                'Security',
+                () => context.pushNamed(Routes.security),
+              ),
               iconAndTextRow(
                 Assets.language,
                 'Language',
