@@ -35,6 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               title: "Create Account",
               description:
                   "Sign up now to explore a world of destinations tailored to your preferences. Your next adventure awaits.",
+              isBackButton: false,
             ),
             Positioned(
               top: screenHeight * 0.33,

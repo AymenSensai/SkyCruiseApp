@@ -7,6 +7,9 @@ abstract class Assets {
 
   static const String map = 'assets/images/map.png';
 
+  static const String forgetPasswordIllustration =
+      'assets/svgs/forgot_password_illustration.svg';
+
   static const String email = 'assets/svgs/email.svg';
   static const String password = 'assets/svgs/password.svg';
 

@@ -17,6 +17,7 @@ class AppTextField extends StatelessWidget {
   final Color? backgroundColor;
   final TextEditingController? controller;
   final Function(String?) validator;
+  final TextInputType? keyboardType;
   const AppTextField({
     super.key,
     this.contentPadding,
@@ -24,12 +25,13 @@ class AppTextField extends StatelessWidget {
     this.enabledBorder,
     this.inputTextStyle,
     this.hintStyle,
-    required this.hintText,
     this.isObscureText,
     this.prefixIcon,
     this.suffixIcon,
     this.backgroundColor,
     this.controller,
+    this.keyboardType,
+    required this.hintText,
     required this.validator,
   });
 
@@ -79,6 +81,7 @@ class AppTextField extends StatelessWidget {
           filled: true,
         ),
         obscureText: isObscureText ?? false,
+        keyboardType: keyboardType,
         style: TextStyles.font16Neutral900Medium,
         cursorColor: ColorsManager.primary500,
         validator: (value) {

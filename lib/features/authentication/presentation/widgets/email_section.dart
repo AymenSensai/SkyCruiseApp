@@ -24,31 +24,41 @@ class EmailSection extends StatelessWidget {
           style: TextStyles.font18Primary900Medium,
         ),
         verticalSpace(16),
-        AppTextField(
-          controller: emailController,
-          hintText: 'Email',
-          prefixIcon: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 20.h,
-            ),
-            child: SvgPicture.asset(
-              Assets.email,
-              colorFilter: const ColorFilter.mode(
-                ColorsManager.neutral200,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-          validator: (value) {
-            if (value == null ||
-                value.isEmpty ||
-                !AppRegex.isEmailValid(value)) {
-              return 'Please enter a valid email';
-            }
-          },
-        ),
+        EmailTextField(emailController: emailController)
       ],
+    );
+  }
+}
+
+class EmailTextField extends StatelessWidget {
+  const EmailTextField({super.key, required this.emailController});
+
+  final TextEditingController emailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppTextField(
+      controller: emailController,
+      hintText: 'Email',
+      prefixIcon: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 20.h,
+        ),
+        child: SvgPicture.asset(
+          Assets.email,
+          colorFilter: const ColorFilter.mode(
+            ColorsManager.neutral200,
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
+      keyboardType: TextInputType.emailAddress,
+      validator: (value) {
+        if (value == null || value.isEmpty || !AppRegex.isEmailValid(value)) {
+          return 'Please enter a valid email';
+        }
+      },
     );
   }
 }
