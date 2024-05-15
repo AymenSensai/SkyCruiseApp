@@ -25,7 +25,7 @@ class ForgetPasswordScreen extends StatelessWidget {
           const MapSection(
             title: "Forget password?",
             description:
-                "Enter your email address and we’ll email you with an otp code to reset the password. ",
+                "Enter your email address and we’ll email you with an otp code to reset the password.",
             isBackButton: true,
           ),
           Positioned(
@@ -47,7 +47,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                       AppTextButton(
                         buttonText: 'Get Started',
                         onPressed: () {
-                          context.pushReplacementNamed(Routes.confirmOtp);
+                          context.pushNamed(Routes.confirmOtp);
                         },
                       ),
                     ],

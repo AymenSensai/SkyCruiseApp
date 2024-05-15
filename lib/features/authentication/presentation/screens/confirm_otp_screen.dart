@@ -1,22 +1,115 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theming/colors.dart';
-import '../../../../core/routing/routes.dart';
 import 'dart:async';
 
-import '../../../../core/widgets/app_text_form_field.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sky_cruise/core/helpers/extensions.dart';
+import 'package:sky_cruise/core/routing/routes.dart';
+
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theming/colors.dart';
+import '../../../../core/theming/styles.dart';
+import '../widgets/map_section.dart';
 
 class ConfirmOtpScreen extends StatefulWidget {
-  const ConfirmOtpScreen({Key? key}) : super(key: key);
+  const ConfirmOtpScreen({super.key});
 
   @override
   State<ConfirmOtpScreen> createState() => _ConfirmOtpScreenState();
 }
 
 class _ConfirmOtpScreenState extends State<ConfirmOtpScreen> {
+  @override
+  Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: SizedBox(
+        height: screenHeight,
+        child: Stack(
+          children: [
+            const MapSection(
+              title: "Confirm OTP",
+              description:
+                  "We have sent an OTP code to your email ne*******r@gmail.com. Enter the OTP code below to verify.",
+              isBackButton: true,
+            ),
+            Positioned(
+              top: screenHeight * 0.33,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 24.w, right: 24.w, bottom: 24.h, top: 24.h),
+                  child: Column(
+                    children: [
+                      _otpField(context),
+                      verticalSpace(32),
+                      Text(
+                        "Didn't receive email?",
+                        style: TextStyles.font18Neutral900Regular,
+                      ),
+                      verticalSpace(24),
+                      _resendCodeRow(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _resendCodeRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'You can resend code in ',
+          style: TextStyles.font18Neutral900Regular,
+        ),
+        const ResendCodeCounter()
+      ],
+    );
+  }
+
+  Widget _otpField(BuildContext context) {
+    return OtpTextField(
+      numberOfFields: 4,
+      filled: true,
+      fillColor: ColorsManager.neutral100.withOpacity(0.2),
+      fieldWidth: 72.w,
+      borderRadius: BorderRadius.circular(20),
+      showFieldAsBox: true,
+      borderWidth: 1,
+      borderColor: Colors.transparent,
+      focusedBorderColor: ColorsManager.primary500,
+      textStyle: TextStyles.font22Neutral900Bold,
+      onSubmit: (String verificationCode) {
+        if (verificationCode == '1234') {
+          context.pushNamed(Routes.confirmNewPassword);
+        }
+      },
+    );
+  }
+}
+
+class ResendCodeCounter extends StatefulWidget {
+  const ResendCodeCounter({super.key});
+
+  @override
+  State<ResendCodeCounter> createState() => _ResendCodeCounterState();
+}
+
+class _ResendCodeCounterState extends State<ResendCodeCounter> {
   late Timer _timer;
-  int _countDown = 45;
-  bool _showHereText = false;
+  late int _countDown;
+  late bool _showHereText;
 
   @override
   void initState() {
@@ -25,6 +118,8 @@ class _ConfirmOtpScreenState extends State<ConfirmOtpScreen> {
   }
 
   void _startTimer() {
+    _countDown = 45;
+    _showHereText = false;
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (_countDown == 0) {
         timer.cancel();
@@ -47,187 +142,29 @@ class _ConfirmOtpScreenState extends State<ConfirmOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      body: SizedBox(
-        height: 766.h,
-        width: double.maxFinite,
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            //primary color
-            Container(
-              height: screenHeight * 0.31,
-              color: ColorsManager.primary500,
-            ),
-            // map
-            Positioned(
-              child: Image.asset(
-                'assets/images/map.png',
-                height: screenHeight * 0.3,
-                width: double.infinity,
-                fit: BoxFit.fill,
-                alignment: Alignment.center,
-              ),
-            ),
-            // back button
-            Positioned(
-              top: 70,
-              left: 18,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      // .pushReplacementNamed(Routes.forgetPassword);
-                      .pushReplacementNamed(Routes.confirmNewPassword);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: ColorsManager.whiteBackground,
-                ),
-              ),
-            ),
-            // text
-            const Positioned(
-              top: 110,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: EdgeInsets.only(top: 0, left: 20.0, right: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Confirm OTP',
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: ColorsManager.whiteBackground,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      'We have sent an OTP code to your email ne*******r@gmail.com. Enter the OTP code below to verify.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: ColorsManager.whiteBackground,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      maxLines: 3,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // OTP input
-            Padding(
-              padding: const EdgeInsets.only(left: 10, top: 280, right: 10),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.h),
-                          child: AppTextField(
-                            hintText: '',
-                            validator: (value) {
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: AppTextField(
-                            hintText: '',
-                            validator: (value) {
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: AppTextField(
-                            hintText: '',
-                            validator: (value) {
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: AppTextField(
-                            hintText: '',
-                            validator: (value) {
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20.0),
-                  const Text(
-                    "Didn't receive email?",
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'You can resend code in ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        '$_countDown s',
-                        style: TextStyle(
-                          color: _countDown == 0
-                              ? ColorsManager.primary500
-                              : const Color(0xFF9E9E9E),
-                          fontSize: 16,
-                        ),
-                      ),
-                      if (_showHereText)
-                        GestureDetector(
-                          onTap: () {
-                            _timer.cancel();
-                            setState(() {
-                              _countDown = 45;
-                              _startTimer(); // Restart the timer
-                              _showHereText = false; // Hide "here" text
-                            });
-                          },
-                          child: Text(
-                            ' here',
-                            style: TextStyle(
-                              color: _countDown == 0
-                                  ? Colors.transparent
-                                  : ColorsManager.primary500,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return Row(
+      children: [
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(children: [
+            TextSpan(
+                text: _showHereText ? 'here' : '$_countDown',
+                style: TextStyles.font18Primary500Regular,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    if (_showHereText) {
+                      _timer.cancel();
+                      _startTimer();
+                    }
+                  }),
+            if (!_showHereText)
+              TextSpan(
+                text: ' s',
+                style: TextStyles.font18Neutral900Regular,
+              )
+          ]),
+        )
+      ],
     );
   }
 }
