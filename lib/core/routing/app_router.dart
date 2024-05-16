@@ -6,6 +6,7 @@ import '../../features/authentication/presentation/screens/forget_password_scree
 import '../../features/authentication/presentation/screens/sign_in_screen.dart';
 import '../../features/authentication/presentation/screens/sign_up_screen.dart';
 import '../../features/authentication/presentation/screens/welcome_screen.dart';
+import '../../features/flight/presentation/screens/flight_details.dart';
 import '../../features/home/presentation/screens/Home.dart';
 import '../../features/home/presentation/screens/airport_search.dart';
 import '../../features/home/presentation/screens/notification.dart';
@@ -75,6 +76,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const PaymentMethodsScreen());
       case Routes.paymentMethod:
         return MaterialPageRoute(builder: (_) => const PaymentMethodScreen());
+      case Routes.flightDetails:
+        return MaterialPageRoute(builder: (_) => const FlightDetailsScreen());
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());

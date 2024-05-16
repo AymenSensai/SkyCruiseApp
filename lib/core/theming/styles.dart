@@ -60,6 +60,16 @@ class TextStyles {
       fontWeight: FontWeightHelper.semiBold,
       color: ColorsManager.primary500);
 
+  static TextStyle font16Primary500Medium = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.primary500);
+
+  static TextStyle font16Neutral50Medium = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.neutral50);
+
   static TextStyle font16Error500Semibold = TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeightHelper.semiBold,
@@ -119,6 +129,11 @@ class TextStyles {
       fontSize: 14.sp,
       fontWeight: FontWeightHelper.regular,
       color: ColorsManager.neutral800);
+
+  static TextStyle font14Neutral50Medium = TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: ColorsManager.neutral50);
 
   static TextStyle font14Neutral50Regular = TextStyle(
       fontSize: 14.sp,

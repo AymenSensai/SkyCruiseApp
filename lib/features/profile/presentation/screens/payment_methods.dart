@@ -38,13 +38,15 @@ class PaymentMethodsScreen extends StatelessWidget {
   BackCenteredTitleAppBar _appBar(BuildContext context) {
     return BackCenteredTitleAppBar(
       title: 'Payment Methods',
-      action: IconButton(
-        onPressed: () => context.pushNamed(Routes.paymentMethod),
-        icon: const Icon(
-          Icons.add_rounded,
-          color: ColorsManager.neutral50,
-        ),
-      ),
+      action: [
+        IconButton(
+          onPressed: () => context.pushNamed(Routes.paymentMethod),
+          icon: const Icon(
+            Icons.add_rounded,
+            color: ColorsManager.neutral50,
+          ),
+        )
+      ],
     );
   }
 

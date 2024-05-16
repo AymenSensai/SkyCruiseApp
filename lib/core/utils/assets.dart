@@ -62,6 +62,10 @@ abstract class Assets {
 
   static const String arrowDownward = 'assets/svgs/arrow_downward.svg';
 
+  static const String contact = 'assets/svgs/contact.svg';
+  static const String suitcase = 'assets/svgs/suitcase.svg';
+  static const String dollar = 'assets/svgs/dollar.svg';
+
   //This is dummy icons for notification screen.
   // TODO: Delete this after and don't forget to delete the icons also from assets folder
   static const String wallet = 'assets/svgs/wallet.svg';
