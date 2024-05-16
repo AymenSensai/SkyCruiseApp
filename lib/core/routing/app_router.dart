@@ -10,6 +10,7 @@ import '../../features/home/presentation/screens/Home.dart';
 import '../../features/home/presentation/screens/airport_search.dart';
 import '../../features/home/presentation/screens/notification.dart';
 import '../../features/profile/presentation/screens/passenger.dart';
+import '../../features/profile/presentation/screens/payment_methods.dart';
 import '../../features/profile/presentation/screens/personal_info.dart';
 import '../../features/profile/presentation/screens/language.dart';
 import '../../features/profile/presentation/screens/notification_settings.dart';
@@ -69,6 +70,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const PassengersListScreen());
       case Routes.passenger:
         return MaterialPageRoute(builder: (_) => const PassengerScreen());
+      case Routes.paymentMethods:
+        return MaterialPageRoute(builder: (_) => const PaymentMethodsScreen());
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
