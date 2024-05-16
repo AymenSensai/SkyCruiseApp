@@ -14,11 +14,12 @@ class Routes {
   static const String trips = '/trips';
 
   static const String profile = '/profile';
-  static const String notificationSettings = '/notificationSettings';
-  static const String language = '/language';
   static const String security = '/security';
+  static const String language = '/language';
+  static const String passenger = '/passenger';
   static const String personalInfo = '/personalInfo';
   static const String passengersList = '/passengersList';
+  static const String notificationSettings = '/notificationSettings';
 
   static const String search = '/search';
 

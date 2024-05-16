@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,6 +21,7 @@ class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final Function(String?) validator;
   final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   const AppTextField({
     super.key,
     this.contentPadding,
@@ -34,6 +36,7 @@ class AppTextField extends StatelessWidget {
     this.backgroundColor,
     this.controller,
     this.keyboardType,
+    this.inputFormatters,
     required this.hintText,
     required this.validator,
   });
@@ -97,6 +100,7 @@ class AppTextField extends StatelessWidget {
           fillColor: backgroundColor ?? ColorsManager.neutral100opac20,
           filled: true,
         ),
+        inputFormatters: inputFormatters,
         obscureText: isObscureText ?? false,
         readOnly: readOnly ?? false,
         keyboardType: keyboardType,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../helpers/spacing.dart';
@@ -14,6 +15,7 @@ class InfoField extends StatelessWidget {
     this.suffixIcon,
     this.readOnly,
     this.focusedBorder,
+    this.inputFormatters,
   });
 
   final TextEditingController controller;
@@ -22,6 +24,7 @@ class InfoField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? readOnly;
   final InputBorder? focusedBorder;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,7 @@ class InfoField extends StatelessWidget {
             suffixIcon: suffixIcon,
             readOnly: readOnly,
             focusedBorder: focusedBorder,
+            inputFormatters: inputFormatters,
             validator: (value) {
               // if (value == null || value.isEmpty) {
               //   return 'Please enter a your name';
