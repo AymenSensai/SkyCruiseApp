@@ -27,9 +27,10 @@ class CloseCenteredTitleAppBar extends StatelessWidget
 
 class BackCenteredTitleAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  const BackCenteredTitleAppBar({super.key, required this.title});
+  const BackCenteredTitleAppBar({super.key, required this.title, this.action});
 
   final String title;
+  final Widget? action;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -45,6 +46,7 @@ class BackCenteredTitleAppBar extends StatelessWidget
           Icons.arrow_back_rounded,
         ),
       ),
+      actions: action != null ? [action!] : null,
     );
   }
 }

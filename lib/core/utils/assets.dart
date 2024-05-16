@@ -52,6 +52,7 @@ abstract class Assets {
   static const String profileSettings = 'assets/svgs/profile_settings.svg';
   static const String notificationSettings =
       'assets/svgs/notification_settings.svg';
+  static const String edit = 'assets/svgs/edit.svg';
 
   static const String arabic = 'assets/images/arabic.png';
   static const String english = 'assets/images/english.png';

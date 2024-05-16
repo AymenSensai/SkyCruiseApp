@@ -18,6 +18,7 @@ class Routes {
   static const String language = '/language';
   static const String security = '/security';
   static const String personalInfo = '/personalInfo';
+  static const String passengersList = '/passengersList';
 
   static const String search = '/search';
 

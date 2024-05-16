@@ -11,7 +11,8 @@ import '../../features/home/presentation/screens/airport_search.dart';
 import '../../features/home/presentation/screens/notification.dart';
 import '../../features/home/presentation/screens/personal_info.dart';
 import '../../features/profile/presentation/screens/language.dart';
-import '../../features/profile/presentation/screens/notificationSettings.dart';
+import '../../features/profile/presentation/screens/notification_settings.dart';
+import '../../features/profile/presentation/screens/passengers_list.dart';
 import '../../features/profile/presentation/screens/profile.dart';
 import '../../features/profile/presentation/screens/security.dart';
 import '../../features/saved/presentation/screens/saved.dart';
@@ -63,6 +64,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SecurityScreen());
       case Routes.personalInfo:
         return MaterialPageRoute(builder: (_) => const PersonalInfoScreen());
+      case Routes.passengersList:
+        return MaterialPageRoute(builder: (_) => const PassengersListScreen());
 
       case Routes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
