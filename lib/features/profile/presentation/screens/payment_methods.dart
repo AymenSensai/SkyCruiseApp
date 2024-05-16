@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sky_cruise/core/helpers/extensions.dart';
+import 'package:sky_cruise/core/routing/routes.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/colors.dart';
@@ -23,7 +25,7 @@ class PaymentMethodsScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
               child: Column(
                 children: [
-                  _emptyPaymentMethod(),
+                  _emptyPaymentMethod(context),
                 ],
               ),
             ),
@@ -37,9 +39,7 @@ class PaymentMethodsScreen extends StatelessWidget {
     return BackCenteredTitleAppBar(
       title: 'Payment Methods',
       action: IconButton(
-        onPressed: () => {
-          // context.pushNamed(Routes.passenger)
-        },
+        onPressed: () => context.pushNamed(Routes.paymentMethod),
         icon: const Icon(
           Icons.add_rounded,
           color: ColorsManager.neutral50,
@@ -48,7 +48,7 @@ class PaymentMethodsScreen extends StatelessWidget {
     );
   }
 
-  Widget _emptyPaymentMethod() {
+  Widget _emptyPaymentMethod(BuildContext context) {
     return Column(
       children: [
         SvgPicture.asset(Assets.creditCardIllustration),
@@ -64,12 +64,12 @@ class PaymentMethodsScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         verticalSpace(24),
-        _addPaymentMethodButton()
+        _addPaymentMethodButton(context)
       ],
     );
   }
 
-  Widget _addPaymentMethodButton() {
+  Widget _addPaymentMethodButton(BuildContext context) {
     return AppTextButton(
       buttonText: 'Add card',
       buttonHeight: 38,
@@ -80,7 +80,7 @@ class PaymentMethodsScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
-      onPressed: () {},
+      onPressed: () => context.pushNamed(Routes.paymentMethod),
     );
   }
 }

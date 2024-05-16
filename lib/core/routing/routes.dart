@@ -18,6 +18,7 @@ class Routes {
   static const String language = '/language';
   static const String passenger = '/passenger';
   static const String personalInfo = '/personalInfo';
+  static const String paymentMethod = '/paymentMethod';
   static const String passengersList = '/passengersList';
   static const String paymentMethods = '/paymentMethods';
   static const String notificationSettings = '/notificationSettings';
