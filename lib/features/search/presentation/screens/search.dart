@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sky_cruise/core/helpers/extensions.dart';
+import 'package:sky_cruise/core/routing/routes.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/colors.dart';
@@ -48,11 +50,14 @@ class _SearchScreenState extends State<SearchScreen> {
               verticalSpace(16),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: const Column(
+                child: Column(
                   children: [
-                    Flight(),
-                    Flight(),
-                    Flight(),
+                    GestureDetector(
+                      onTap: () => context.pushNamed(Routes.flightDetails),
+                      child: const Flight(),
+                    ),
+                    const Flight(),
+                    const Flight(),
                   ],
                 ),
               ),

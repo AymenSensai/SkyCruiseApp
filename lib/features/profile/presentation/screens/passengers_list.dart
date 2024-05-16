@@ -63,13 +63,15 @@ class PassengersListScreen extends StatelessWidget {
   BackCenteredTitleAppBar _appBar(BuildContext context) {
     return BackCenteredTitleAppBar(
       title: 'Passengers List',
-      action: IconButton(
-        onPressed: () => context.pushNamed(Routes.passenger),
-        icon: const Icon(
-          Icons.add_rounded,
-          color: ColorsManager.neutral50,
+      action: [
+        IconButton(
+          onPressed: () => context.pushNamed(Routes.passenger),
+          icon: const Icon(
+            Icons.add_rounded,
+            color: ColorsManager.neutral50,
+          ),
         ),
-      ),
+      ],
     );
   }
 
