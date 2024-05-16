@@ -25,7 +25,10 @@ class ProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               iconAndTextRow(
-                  Assets.passengersSettings, 'Passengers List', () {}),
+                Assets.passengersSettings,
+                'Passengers List',
+                () => context.pushNamed(Routes.passengersList),
+              ),
               iconAndTextRow(Assets.card, 'Payment Methods', () {}),
               verticalSpace(12),
               Text(
