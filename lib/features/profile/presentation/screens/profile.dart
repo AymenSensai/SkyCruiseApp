@@ -29,7 +29,11 @@ class ProfileScreen extends StatelessWidget {
                 'Passengers List',
                 () => context.pushNamed(Routes.passengersList),
               ),
-              iconAndTextRow(Assets.card, 'Payment Methods', () {}),
+              iconAndTextRow(
+                Assets.card,
+                'Payment Methods',
+                () => context.pushNamed(Routes.paymentMethods),
+              ),
               verticalSpace(12),
               Text(
                 'General',
