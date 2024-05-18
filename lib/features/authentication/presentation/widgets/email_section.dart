@@ -40,7 +40,9 @@ class EmailTextField extends StatelessWidget {
       prefixIcon: Assets.email,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value == null || value.isEmpty || !AppRegex.isEmailValid(value)) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your email';
+        } else if (!AppRegex.isEmailValid(value)) {
           return 'Please enter a valid email';
         }
       },

@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/widgets/app_text_button.dart';
+import '../controllers/auth_cubit.dart';
+import '../widgets/auth_bloc_listener.dart';
 import '../widgets/email_section.dart';
 import '../widgets/map_section.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
-  ForgetPasswordScreen({super.key});
-  final TextEditingController emailController = TextEditingController();
+class ForgetPasswordScreen extends StatefulWidget {
+  const ForgetPasswordScreen({super.key});
+
+  @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = context.screenHeight();
     return Scaffold(
         body: SizedBox(
       height: screenHeight,
@@ -42,14 +57,14 @@ class ForgetPasswordScreen extends StatelessWidget {
                     children: [
                       SvgPicture.asset(Assets.forgetPasswordIllustration),
                       verticalSpace(24),
-                      EmailTextField(emailController: emailController),
-                      verticalSpace(48),
-                      AppTextButton(
-                        buttonText: 'Get Started',
-                        onPressed: () {
-                          context.pushNamed(Routes.confirmOtp);
-                        },
+                      Form(
+                        key: _formKey,
+                        child:
+                            EmailTextField(emailController: _emailController),
                       ),
+                      verticalSpace(48),
+                      _continueButton(context),
+                      AuthBlocListener(email: _emailController.text),
                     ],
                   ),
                 ),
@@ -59,5 +74,16 @@ class ForgetPasswordScreen extends StatelessWidget {
         ],
       ),
     ));
+  }
+
+  AppTextButton _continueButton(BuildContext context) {
+    return AppTextButton(
+      buttonText: 'Continue',
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          context.read<AuthCubit>().sendEmail(_emailController.text);
+        }
+      },
+    );
   }
 }

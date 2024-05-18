@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
+import '../../../../core/utils/app_regex.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 
@@ -11,10 +12,15 @@ class PasswordSection extends StatefulWidget {
     super.key,
     required this.passwordController,
     required this.text,
+    this.otherText,
+    this.useValidators = true,
   });
 
   final TextEditingController passwordController;
   final String text;
+  final bool useValidators;
+  final String? otherText;
+
   @override
   State<PasswordSection> createState() => _PasswordSectionState();
 }
@@ -51,7 +57,13 @@ class _PasswordSectionState extends State<PasswordSection> {
           keyboardType: TextInputType.visiblePassword,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter a valid password';
+              return 'Please enter your password.';
+            }
+            if (widget.otherText != null && value != widget.otherText) {
+              return 'The passwords doesn\'t match.';
+            }
+            if (widget.useValidators) {
+              return AppRegex.passwordValidator(value);
             }
           },
         ),

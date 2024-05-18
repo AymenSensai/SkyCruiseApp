@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/app_text_button.dart';
+import '../controllers/auth_cubit.dart';
+import '../widgets/auth_bloc_listener.dart';
 import '../widgets/email_section.dart';
 import '../widgets/have_account.dart';
 import '../widgets/map_section.dart';
@@ -19,13 +22,22 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = context.screenHeight();
     return Scaffold(
       body: SizedBox(
         height: screenHeight,
@@ -49,14 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
                     child: Column(
                       children: [
-                        NameSection(nameController: nameController),
-                        verticalSpace(24),
-                        EmailSection(emailController: emailController),
-                        verticalSpace(24),
-                        PasswordSection(
-                          passwordController: passwordController,
-                          text: 'Password',
-                        ),
+                        _signUpForm(),
                         verticalSpace(16),
                         HaveAccount(
                           text: 'Already have an account yet? ',
@@ -66,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         verticalSpace(24),
                         _createAccountButton(context),
+                        const AuthBlocListener(isRememberMeBoxChecked: true),
                       ],
                     ),
                   ),
@@ -78,11 +84,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Widget _signUpForm() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          NameSection(nameController: _nameController),
+          verticalSpace(24),
+          EmailSection(emailController: _emailController),
+          verticalSpace(24),
+          PasswordSection(
+            passwordController: _passwordController,
+            text: 'Password',
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _createAccountButton(BuildContext context) {
     return AppTextButton(
       buttonText: 'Create Account',
       onPressed: () {
-        context.pushNamed(Routes.appHome);
+        if (_formKey.currentState!.validate()) {
+          context.read<AuthCubit>().signUp(
+                _nameController.text,
+                _emailController.text,
+                _passwordController.text,
+              );
+        }
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/helpers/extensions.dart';
@@ -7,6 +8,8 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/app_text_button.dart';
 import '../../../../core/widgets/custom_checkbox.dart';
+import '../controllers/auth_cubit.dart';
+import '../widgets/auth_bloc_listener.dart';
 import '../widgets/email_section.dart';
 import '../widgets/have_account.dart';
 import '../widgets/map_section.dart';
@@ -20,12 +23,21 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool isRememberMeBoxChecked = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = context.screenHeight();
     return Scaffold(
       body: SizedBox(
         height: screenHeight,
@@ -50,12 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
                     child: Column(
                       children: [
-                        EmailSection(emailController: emailController),
-                        verticalSpace(24),
-                        PasswordSection(
-                          passwordController: passwordController,
-                          text: 'Password',
-                        ),
+                        _signInForm(),
                         verticalSpace(16),
                         _rememberMe(context),
                         HaveAccount(
@@ -66,6 +73,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         verticalSpace(24),
                         _loginButton(context),
+                        AuthBlocListener(
+                            isRememberMeBoxChecked: isRememberMeBoxChecked),
                       ],
                     ),
                   ),
@@ -79,10 +88,33 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  Widget _signInForm() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          EmailSection(emailController: _emailController),
+          verticalSpace(24),
+          PasswordSection(
+            passwordController: _passwordController,
+            text: 'Password',
+            useValidators: false,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _rememberMe(BuildContext context) {
     return Row(
       children: [
-        const CustomCheckbox(),
+        CustomCheckbox(
+          onChecked: (value) {
+            if (value != null) {
+              isRememberMeBoxChecked = value;
+            }
+          },
+        ),
         Text(
           'Remember me',
           style: TextStyles.font12Neutral300Regular,
@@ -105,7 +137,11 @@ class _SignInScreenState extends State<SignInScreen> {
     return AppTextButton(
       buttonText: 'Login',
       onPressed: () {
-        context.pushNamed(Routes.appHome);
+        if (_formKey.currentState!.validate()) {
+          context
+              .read<AuthCubit>()
+              .signIn(_emailController.text, _passwordController.text);
+        }
       },
     );
   }

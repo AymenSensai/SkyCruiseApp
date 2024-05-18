@@ -14,6 +14,7 @@ class ColorsManager {
 
   static const Color error50 = Color(0xffFCEBE9);
   static const Color error500 = Color(0xffE33422);
+  static const Color error600 = Color(0xffCF2F1F);
 
   static const Color success50 = Color(0xffE9FCF1);
   static const Color success600 = Color(0xff1FCF6A);

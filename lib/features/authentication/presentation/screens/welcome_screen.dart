@@ -8,6 +8,7 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/utils/shared_prefs.dart';
 import '../../../../core/widgets/app_text_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = context.screenHeight();
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -121,7 +122,10 @@ class WelcomeScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: AppTextButton(
               buttonText: 'Get Started',
-              onPressed: () => context.pushNamed(Routes.signIn),
+              onPressed: () {
+                SharedPreferencesService.saveIsFirstTime();
+                context.pushNamed(Routes.signIn);
+              },
             ),
           ),
         ],
