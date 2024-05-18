@@ -40,6 +40,11 @@ class TextStyles {
       fontWeight: FontWeightHelper.medium,
       color: ColorsManager.neutral900);
 
+  static TextStyle font18Primary500Bold = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeightHelper.bold,
+      color: ColorsManager.primary500);
+
   static TextStyle font18Primary500Regular = TextStyle(
       fontSize: 18.sp,
       fontWeight: FontWeightHelper.regular,
@@ -214,4 +219,9 @@ class TextStyles {
       fontSize: 10.sp,
       fontWeight: FontWeightHelper.regular,
       color: ColorsManager.neutral500);
+
+  static TextStyle font10Error500Regular = TextStyle(
+      fontSize: 10.sp,
+      fontWeight: FontWeightHelper.regular,
+      color: ColorsManager.error500);
 }

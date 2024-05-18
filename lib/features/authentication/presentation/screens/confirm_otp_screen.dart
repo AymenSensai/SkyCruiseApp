@@ -13,7 +13,10 @@ import '../../../../core/theming/styles.dart';
 import '../widgets/map_section.dart';
 
 class ConfirmOtpScreen extends StatefulWidget {
-  const ConfirmOtpScreen({super.key});
+  const ConfirmOtpScreen({super.key, required this.code, required this.email});
+
+  final int code;
+  final String email;
 
   @override
   State<ConfirmOtpScreen> createState() => _ConfirmOtpScreenState();
@@ -22,7 +25,7 @@ class ConfirmOtpScreen extends StatefulWidget {
 class _ConfirmOtpScreenState extends State<ConfirmOtpScreen> {
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = context.screenHeight();
     return Scaffold(
       body: SizedBox(
         height: screenHeight,
@@ -91,8 +94,9 @@ class _ConfirmOtpScreenState extends State<ConfirmOtpScreen> {
       focusedBorderColor: ColorsManager.primary500,
       textStyle: TextStyles.font22Neutral900Bold,
       onSubmit: (String verificationCode) {
-        if (verificationCode == '1234') {
-          context.pushNamed(Routes.confirmNewPassword);
+        if (verificationCode == widget.code.toString()) {
+          context.pushReplacementNamed(Routes.confirmNewPassword,
+              arguments: widget.email);
         }
       },
     );
@@ -117,6 +121,12 @@ class _ResendCodeCounterState extends State<ResendCodeCounter> {
     _startTimer();
   }
 
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   void _startTimer() {
     _countDown = 45;
     _showHereText = false;
@@ -132,12 +142,6 @@ class _ResendCodeCounterState extends State<ResendCodeCounter> {
         });
       }
     });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 
   @override

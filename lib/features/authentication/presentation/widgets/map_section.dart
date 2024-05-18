@@ -21,7 +21,7 @@ class MapSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = context.screenHeight();
     return Stack(
       children: [
         Container(
@@ -43,7 +43,10 @@ class MapSection extends StatelessWidget {
             child: IconButton(
               onPressed: () => isBackButton
                   ? context.pop()
-                  : context.pushReplacementNamed(Routes.appHome),
+                  : context.pushNamedAndRemoveUntil(
+                      Routes.appHome,
+                      predicate: (Route<dynamic> route) => false,
+                    ),
               icon: Icon(
                 isBackButton ? Icons.arrow_back_rounded : Icons.close_rounded,
                 color: ColorsManager.neutral50,

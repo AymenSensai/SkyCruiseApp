@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/helpers/spacing.dart';
-import 'package:sky_cruise/core/widgets/app_bar.dart';
-import 'package:sky_cruise/core/widgets/info_field.dart';
 
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/widgets/app_bar.dart';
 import '../../../../core/widgets/app_text_button.dart';
+import '../../../../core/widgets/info_field.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
   const PaymentMethodScreen({super.key});

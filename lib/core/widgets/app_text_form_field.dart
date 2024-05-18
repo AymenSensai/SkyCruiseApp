@@ -47,6 +47,7 @@ class AppTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           isDense: true,
+          errorStyle: TextStyles.font10Error500Regular,
           contentPadding: contentPadding ??
               EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
           focusedBorder: focusedBorder ??

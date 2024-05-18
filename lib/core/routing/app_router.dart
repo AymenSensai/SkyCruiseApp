@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../features/authentication/presentation/controllers/auth_cubit.dart';
 import '../../features/authentication/presentation/screens/confirm_new_password.dart';
 import '../../features/authentication/presentation/screens/confirm_otp_screen.dart';
 import '../../features/authentication/presentation/screens/forget_password_screen.dart';
@@ -10,39 +12,64 @@ import '../../features/flight/presentation/screens/flight_details.dart';
 import '../../features/home/presentation/screens/Home.dart';
 import '../../features/home/presentation/screens/airport_search.dart';
 import '../../features/home/presentation/screens/notification.dart';
+import '../../features/profile/presentation/screens/language.dart';
+import '../../features/profile/presentation/screens/notification_settings.dart';
 import '../../features/profile/presentation/screens/passenger.dart';
+import '../../features/profile/presentation/screens/passengers_list.dart';
 import '../../features/profile/presentation/screens/payment_method.dart';
 import '../../features/profile/presentation/screens/payment_methods.dart';
 import '../../features/profile/presentation/screens/personal_info.dart';
-import '../../features/profile/presentation/screens/language.dart';
-import '../../features/profile/presentation/screens/notification_settings.dart';
-import '../../features/profile/presentation/screens/passengers_list.dart';
 import '../../features/profile/presentation/screens/profile.dart';
 import '../../features/profile/presentation/screens/security.dart';
 import '../../features/saved/presentation/screens/saved.dart';
 import '../../features/search/presentation/screens/search.dart';
 import '../../features/trips/presentation/screens/trips.dart';
+import '../di/dependency_injection.dart';
 import '../widgets/app_home.dart';
 import 'routes.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
     final arguments = settings.arguments;
+    final authCubit = getIt<AuthCubit>();
 
     switch (settings.name) {
       case Routes.welcome:
         return MaterialPageRoute(builder: (_) => const WelcomeScreen());
       case Routes.signIn:
-        return MaterialPageRoute(builder: (_) => const SignInScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: const SignInScreen(),
+          ),
+        );
       case Routes.signUp:
-        return MaterialPageRoute(builder: (_) => const SignUpScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: const SignUpScreen(),
+          ),
+        );
       case Routes.forgetPassword:
-        return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: ForgetPasswordScreen(),
+          ),
+        );
       case Routes.confirmOtp:
-        return MaterialPageRoute(builder: (_) => const ConfirmOtpScreen());
+        final argumentsList = arguments as List<dynamic>;
+        return MaterialPageRoute(
+          builder: (_) =>
+              ConfirmOtpScreen(code: argumentsList[0], email: argumentsList[1]),
+        );
       case Routes.confirmNewPassword:
         return MaterialPageRoute(
-            builder: (_) => const ConfirmNewPasswordScreen());
+          builder: (_) => BlocProvider.value(
+            value: authCubit,
+            child: ConfirmNewPasswordScreen(email: arguments as String),
+          ),
+        );
 
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());

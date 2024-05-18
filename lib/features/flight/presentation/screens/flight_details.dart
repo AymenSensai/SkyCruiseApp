@@ -1,20 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sky_cruise/core/helpers/extensions.dart';
-import 'package:sky_cruise/core/helpers/spacing.dart';
-import 'package:sky_cruise/core/routing/routes.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
-import 'package:sky_cruise/core/theming/styles.dart';
-import 'package:sky_cruise/core/utils/assets.dart';
-import 'package:sky_cruise/core/widgets/app_bar.dart';
-import 'package:sky_cruise/core/widgets/app_text_button.dart';
-import 'package:sky_cruise/core/widgets/flight.dart';
-import 'package:sky_cruise/features/flight/presentation/widgets/custom_stepper.dart';
 
+import '../../../../core/helpers/extensions.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/routing/routes.dart';
+import '../../../../core/theming/colors.dart';
+import '../../../../core/theming/styles.dart';
+import '../../../../core/utils/assets.dart';
+import '../../../../core/widgets/app_bar.dart';
+import '../../../../core/widgets/app_text_button.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
+import '../../../../core/widgets/flight.dart';
+import '../widgets/custom_stepper.dart';
 
 class FlightDetailsScreen extends StatefulWidget {
   const FlightDetailsScreen({super.key});

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/styles.dart';
+import '../../../../core/utils/app_regex.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 
@@ -27,6 +28,8 @@ class NameSection extends StatelessWidget {
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your name';
+            } else if (!AppRegex.isUsernameValid(value)) {
+              return 'Name can only contain alphanumeric characters.';
             }
           },
         ),
