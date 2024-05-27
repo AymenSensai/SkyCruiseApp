@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/widgets/app_text_button.dart';
 import '../controllers/auth_cubit.dart';

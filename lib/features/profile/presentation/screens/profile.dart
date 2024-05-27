@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/utils/shared_prefs.dart';
 import '../../../../core/widgets/switch.dart';
+import '../controllers/profile_cubit.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    BlocProvider.of<ProfileCubit>(context).getProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +107,13 @@ class ProfileScreen extends StatelessWidget {
                 Assets.signOut,
                 'Sign out',
                 color: ColorsManager.error500,
-                () {},
+                () {
+                  SharedPreferencesService.saveToken('');
+                  context.pushNamedAndRemoveUntil(
+                    Routes.signIn,
+                    predicate: (Route<dynamic> route) => false,
+                  );
+                },
                 widget: const SizedBox.shrink(),
               ),
             ],

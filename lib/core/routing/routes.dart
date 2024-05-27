@@ -26,6 +26,9 @@ class Routes {
   static const String search = '/search';
 
   static const String flightDetails = '/flightDetails';
+  static const String flightPayment = '/flightPayment';
+  static const String selectSeat = '/selectSeat';
+  static const String flightTicket = '/flightTicket';
 
   static const String appHome = '/appHome';
 }

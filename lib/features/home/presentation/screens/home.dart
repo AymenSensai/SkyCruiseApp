@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+import 'package:sky_cruise/features/home/domain/entities/airport.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/utils/time_formating.dart';
 import '../../../../core/widgets/app_text_button.dart';
 import '../widgets/date_dialog.dart';
 import '../widgets/passengers_dialog.dart';
 import '../widgets/seat_dialog.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  AirportEntity? departureAirport;
+  AirportEntity? arrivalAirport;
+  String departureDate = '2024-06-01';
+  String arrivalDate = '2024-06-03';
+  String seatClass = 'Economy';
+  int numberOfPassengers = 1;
+
+  Future<AirportEntity?> _navigateAndReturnAirport(
+      BuildContext context, String argument) async {
+    final result =
+        await context.pushNamed(Routes.airportSearch, arguments: argument);
+    if (!context.mounted) return null;
+
+    return result as AirportEntity;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +50,6 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
           child: Stack(
         children: [
-          // Blue background behind search fields
           Positioned(
             width: width,
             height: height / 4,
@@ -34,8 +57,6 @@ class HomeScreen extends StatelessWidget {
               color: ColorsManager.primary500,
             ),
           ),
-
-          // Search fields with white background
           Positioned(
             right: 24,
             left: 24,
@@ -60,28 +81,43 @@ class HomeScreen extends StatelessWidget {
                         _field(
                           'From',
                           SvgPicture.asset(Assets.airplaneUp),
-                          'New York (JFK)',
-                          () => context.pushNamed(Routes.airportSearch,
-                              arguments: 'Select Origin'),
+                          '${departureAirport?.cityName ?? 'Washington, D.C.'} (${departureAirport?.code ?? 'IAD'})',
+                          () async {
+                            final result = await _navigateAndReturnAirport(
+                                context, 'Select Origin');
+                            setState(() {
+                              departureAirport = result!;
+                            });
+                          },
                         ),
                         verticalSpace(24),
                         _field(
                           'To',
                           SvgPicture.asset(Assets.airplaneDown),
-                          'Paris (CDG)',
-                          () => context.pushNamed(Routes.airportSearch,
-                              arguments: 'Select Destination'),
+                          '${arrivalAirport?.cityName ?? 'Tokyo'} (${arrivalAirport?.code ?? 'HND'})',
+                          () async {
+                            final result = await _navigateAndReturnAirport(
+                                context, 'Select Destination');
+                            setState(() {
+                              arrivalAirport = result!;
+                            });
+                          },
                         ),
                         verticalSpace(24),
                         _field(
                           'Date',
                           SvgPicture.asset(Assets.calendar),
-                          'Wednesday, Dec 27 2023',
+                          formatDateWithDay(departureDate),
                           () => showModalBottomSheet(
                             context: context,
                             backgroundColor: ColorsManager.whiteBackground,
                             builder: (context) => DateDialog(
-                              onPassengersChanged: () {},
+                              onPassengersChanged: (dates) {
+                                departureDate =
+                                    DateFormat('yyyy-MM-dd').format(dates[0]);
+                                arrivalDate =
+                                    DateFormat('yyyy-MM-dd').format(dates[1]);
+                              },
                             ),
                           ),
                         ),
@@ -93,13 +129,17 @@ class HomeScreen extends StatelessWidget {
                               child: _field(
                                 'Passengers',
                                 SvgPicture.asset(Assets.passengers),
-                                '1 Seat',
+                                '$numberOfPassengers Seat',
                                 () => showModalBottomSheet(
                                   context: context,
                                   backgroundColor:
                                       ColorsManager.whiteBackground,
                                   builder: (context) => PassengersDialog(
-                                    onPassengersChanged: () {},
+                                    onPassengersChanged: (number) {
+                                      setState(() {
+                                        numberOfPassengers = number;
+                                      });
+                                    },
                                   ),
                                 ),
                               ),
@@ -109,13 +149,18 @@ class HomeScreen extends StatelessWidget {
                               child: _field(
                                 'Class',
                                 SvgPicture.asset(Assets.classIcon),
-                                'Economy',
+                                seatClass,
                                 () => showModalBottomSheet(
                                   context: context,
                                   backgroundColor:
                                       ColorsManager.whiteBackground,
                                   builder: (context) => SeatDialog(
-                                    onSeatClassChanged: () {},
+                                    onSeatClassChanged: (newClass) {
+                                      setState(() {
+                                        seatClass = newClass;
+                                      });
+                                    },
+                                    seat: seatClass,
                                   ),
                                 ),
                               ),
@@ -217,7 +262,14 @@ class HomeScreen extends StatelessWidget {
   Widget _searchButton(BuildContext context) {
     return AppTextButton(
       buttonText: 'Search flight',
-      onPressed: () => context.pushNamed(Routes.search),
+      onPressed: () => context.pushNamed(Routes.search, arguments: [
+        departureAirport?.code ?? 'IAD',
+        arrivalAirport?.code ?? 'HND',
+        departureDate,
+        arrivalDate,
+        numberOfPassengers,
+        seatClass
+      ]),
     );
   }
 }

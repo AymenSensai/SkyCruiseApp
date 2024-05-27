@@ -6,7 +6,7 @@ part 'code.g.dart';
 
 @JsonSerializable()
 class CodeModel {
-  CodeModel({required this.code});
+  const CodeModel({required this.code});
 
   @JsonKey(name: 'code')
   final int code;

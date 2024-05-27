@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dialog_action_buttons_row.dart';
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/styles.dart';
 
 class SeatDialog extends StatefulWidget {
-  const SeatDialog({super.key, required this.onSeatClassChanged});
+  const SeatDialog({
+    super.key,
+    required this.onSeatClassChanged,
+    required this.seat,
+  });
 
-  final VoidCallback onSeatClassChanged;
+  final Function(String) onSeatClassChanged;
+  final String? seat;
 
   @override
   State<SeatDialog> createState() => _SeatDialogState();
 }
 
 class _SeatDialogState extends State<SeatDialog> {
-  int? selectedSeat = 0;
+  int? selectedClass = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.seat != null) {
+      selectedClass = widget.seat == 'Economy'
+          ? 0
+          : widget.seat == 'Premium'
+              ? 1
+              : widget.seat == 'Business'
+                  ? 2
+                  : 3;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +58,15 @@ class _SeatDialogState extends State<SeatDialog> {
           _buildSeatOption(value: 3, text: 'First Class'),
           verticalSpace(24),
           ActionButtonsRow(
-            onValueChanged: () => widget.onSeatClassChanged(),
+            onValueChanged: () => widget.onSeatClassChanged(
+              selectedClass == 0
+                  ? 'Economy'
+                  : selectedClass == 1
+                      ? 'Premium'
+                      : selectedClass == 2
+                          ? 'Business'
+                          : 'First',
+            ),
           ),
         ],
       ),
@@ -56,9 +83,9 @@ class _SeatDialogState extends State<SeatDialog> {
           width: 20,
           child: Radio<int>(
             value: value,
-            groupValue: selectedSeat,
+            groupValue: selectedClass,
             toggleable: true,
-            onChanged: (int? value) => setState(() => selectedSeat = value),
+            onChanged: (int? value) => setState(() => selectedClass = value),
           ),
         ),
       ],

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import 'dialog_action_buttons_row.dart';
@@ -11,7 +11,7 @@ import 'dialog_action_buttons_row.dart';
 class DateDialog extends StatefulWidget {
   const DateDialog({super.key, required this.onPassengersChanged});
 
-  final VoidCallback onPassengersChanged;
+  final Function(List<DateTime>) onPassengersChanged;
 
   @override
   State<DateDialog> createState() => _DateDialogState();
@@ -36,7 +36,7 @@ class _DateDialogState extends State<DateDialog> {
           const Divider(),
           _calendar(),
           ActionButtonsRow(
-            onValueChanged: () => widget.onPassengersChanged(),
+            onValueChanged: () => widget.onPassengersChanged(selectedDates),
           ),
         ],
       ),
@@ -76,22 +76,10 @@ class _DateDialogState extends State<DateDialog> {
         dowTextFormatter: (date, locale) =>
             DateFormat.E(locale).format(date)[0],
       ),
-      // eventLoader: (date) {
-      //   List<DateTime> list = [];
-      //   for (var day in days) {
-      //     if (day.year == date.year &&
-      //         day.month == date.month &&
-      //         day.day == date.day) {
-      //       list.add(day);
-      //     }
-      //   }
-      //   return list;
-      // },
       onDaySelected: (selectedDay, focusedDay) {
         if (selectedDates.length < 2) {
           setState(() {
             selectedDates.add(selectedDay);
-            print(selectedDates);
           });
         } else if (selectedDates.length == 2) {
           setState(() {
@@ -106,9 +94,6 @@ class _DateDialogState extends State<DateDialog> {
           bool isBetween = selectedDates.length == 2 &&
               (date.isAfter(selectedDates[0]) &&
                   date.isBefore(selectedDates[1]));
-          // ||
-          // (date.isBefore(selectedDates[0]) &&
-          // date.isAfter(selectedDates[1]));
 
           if (isSelected || isBetween) {
             return Center(

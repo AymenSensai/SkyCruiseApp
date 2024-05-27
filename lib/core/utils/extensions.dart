@@ -29,7 +29,7 @@ extension ScreenSize on BuildContext {
 extension NetworkImage on Widget {
   Widget networkImage(String image, {double? width, double? height}) =>
       Image.network(
-        "${ApiConstants.apiBaseUrl}$image",
+        '${ApiConstants.storageBaseUrl}$image',
         width: width,
         height: height,
         fit: BoxFit.contain,

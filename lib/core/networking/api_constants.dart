@@ -1,10 +1,25 @@
 class ApiConstants {
-  static const String apiBaseUrl = "http://192.168.1.6:8000/api/";
+  static const String apiBaseUrl =
+      "https://skycruiseapi-production.up.railway.app/api/";
+  static const storageBaseUrl = 'https://res.cloudinary.com/dxinptjyq/';
+  static const String stripeBaseUrl = "https://api.stripe.com/v1/";
 
   static const String signIn = "auth/login";
   static const String signUp = "auth/register";
   static const String sendEmail = "auth/sendEmail";
   static const String passwordReset = "auth/passwordReset";
+
+  static const String airports = "airports";
+  static const String searchFlights = "flight/search";
+
+  static const String profile = "user/profile";
+  static const String passengers = "user/passengers";
+  static const String getSavedFlights = "user/saved-flights";
+  static const String addSavedFlight = "user/saved-flights/add";
+  static const String deleteSavedFlight = "user/saved-flights/delete";
+  static const String checkSavedFlight = "user/check-saved-flight";
+
+  static const String reservations = "reservations";
 }
 
 class ApiErrors {

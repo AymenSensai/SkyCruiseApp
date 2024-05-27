@@ -5,7 +5,7 @@ import 'core/theming/theme.dart';
 
 class SkyCruiseApp extends StatelessWidget {
   final AppRouter appRouter;
-  final String initialRoute;
+  final Widget initialRoute;
 
   const SkyCruiseApp({
     super.key,
@@ -24,7 +24,7 @@ class SkyCruiseApp extends StatelessWidget {
         title: 'SkyCruise',
         theme: ThemeManager.getAppLightTheme(),
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: initialRoute,
+        home: initialRoute,
       ),
     );
   }

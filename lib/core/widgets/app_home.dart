@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../features/home/presentation/screens/Home.dart';
+import '../../features/profile/presentation/controllers/profile_cubit.dart';
 import '../../features/profile/presentation/screens/profile.dart';
+import '../../features/saved/presentation/controllers/saved_cubit.dart';
 import '../../features/saved/presentation/screens/saved.dart';
+import '../../features/trips/presentation/controllers/trips_cubit.dart';
 import '../../features/trips/presentation/screens/trips.dart';
+import '../di/dependency_injection.dart';
 import '../theming/colors.dart';
 import '../theming/styles.dart';
 import '../utils/assets.dart';
@@ -32,25 +37,25 @@ class _AppHomeState extends State<AppHome> {
         backgroundColor: Colors.white,
         iconSize: 24,
         items: [
-          _bootmNavigationBarItem(
+          _bottomNavigationBarItem(
             icon: SvgPicture.asset(
               _selectedIndex == 0 ? Assets.homeSolid : Assets.homeRegular,
             ),
             label: 'Home',
           ),
-          _bootmNavigationBarItem(
+          _bottomNavigationBarItem(
             icon: SvgPicture.asset(
               _selectedIndex == 1 ? Assets.savedSolid : Assets.savedRegular,
             ),
             label: 'Saved',
           ),
-          _bootmNavigationBarItem(
+          _bottomNavigationBarItem(
             icon: SvgPicture.asset(
               _selectedIndex == 2 ? Assets.tripsSolid : Assets.tripsRegular,
             ),
             label: 'Trips',
           ),
-          _bootmNavigationBarItem(
+          _bottomNavigationBarItem(
             icon: SvgPicture.asset(
               _selectedIndex == 3 ? Assets.profileSolid : Assets.profileRegular,
             ),
@@ -68,17 +73,26 @@ class _AppHomeState extends State<AppHome> {
       case 0:
         return const HomeScreen();
       case 1:
-        return const SavedScreen();
+        return BlocProvider(
+          create: (context) => getIt<SavedCubit>(),
+          child: const SavedScreen(),
+        );
       case 2:
-        return const TripsScreen();
+        return BlocProvider(
+          create: (context) => getIt<TripsCubit>(),
+          child: const TripsScreen(),
+        );
       case 3:
-        return const ProfileScreen();
+        return BlocProvider(
+          create: (context) => getIt<ProfileCubit>(),
+          child: const ProfileScreen(),
+        );
       default:
         return const Text('No route defined for this tab');
     }
   }
 
-  BottomNavigationBarItem _bootmNavigationBarItem({
+  BottomNavigationBarItem _bottomNavigationBarItem({
     required Widget icon,
     required String label,
   }) {

@@ -1,36 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/error_snackbar.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
-import '../../../../core/widgets/app_bar.dart';
 import '../../../../core/widgets/app_text_button.dart';
-import '../../../../core/widgets/app_text_form_field.dart';
 import '../../../../core/widgets/flight.dart';
+import '../../../search/domain/entities/flight.dart';
+import '../controllers/flight_cubit.dart';
+import '../controllers/flight_state.dart';
+import '../widgets/contact_details.dart';
 import '../widgets/custom_stepper.dart';
+import '../widgets/flight_app_bar.dart';
+import '../widgets/passenger_details.dart';
+import '../widgets/price_details.dart';
 
 class FlightDetailsScreen extends StatefulWidget {
-  const FlightDetailsScreen({super.key});
+  const FlightDetailsScreen({
+    super.key,
+    required this.flight,
+    this.numberOfPassengers,
+    this.seatClass,
+  });
+
+  final FlightEntity flight;
+  final int? numberOfPassengers;
+  final String? seatClass;
 
   @override
   State<FlightDetailsScreen> createState() => _FlightDetailsScreenState();
 }
 
 class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
-  final TextEditingController controller = TextEditingController();
-  final TextEditingController controller2 = TextEditingController();
+  late FlightCubit cubit;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    cubit = context.read<FlightCubit>();
+
+    cubit.checkSavedFlight(widget.flight.id);
+    cubit.fetchProfileAndPassengers();
+    cubit.changeFlight(widget.flight);
+    cubit.changeNumberOfPassengers(widget.numberOfPassengers ?? 1);
+    cubit.changeSeatClass(widget.seatClass ?? 'Economy');
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: _appBar(),
+      appBar: const FlightAppBar(
+        isBack: true,
+      ),
       body: SafeArea(
           child: Stack(
         children: [
@@ -42,7 +71,7 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
               color: ColorsManager.primary500,
               height: 100.h,
               padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 12.h),
-              child: const CustomStepper(),
+              child: const CustomStepper(stepNumber: 1),
             ),
           ),
           Positioned(
@@ -50,27 +79,58 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-                child: Column(
-                  children: [
-                    const Flight(),
-                    verticalSpace(16),
-                    _contactDetails(),
-                    verticalSpace(24),
-                    _passengerDetails(),
-                    verticalSpace(24),
-                    _seatNumber(),
-                    verticalSpace(24),
-                    _facility(),
-                    verticalSpace(24),
-                    _priceDetails(),
-                    verticalSpace(24),
-                    _addPassenger()
-                  ],
-                ),
-              ),
+            child: BlocBuilder<FlightCubit, FlightState>(
+              buildWhen: (previous, current) =>
+                  current is FlightLoading ||
+                  current is FlightSuccess ||
+                  current is FlightError,
+              builder: (context, state) {
+                return state.maybeWhen(
+                    flightLoading: () {
+                      return const Align(
+                        alignment: Alignment.topCenter,
+                        child: LinearProgressIndicator(
+                            color: ColorsManager.primary500),
+                      );
+                    },
+                    flightSuccess: (response) {
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24.w, vertical: 24.h),
+                          child: Column(
+                            children: [
+                              Flight(flight: widget.flight),
+                              verticalSpace(16),
+                              ContactDetails(
+                                user: cubit.user,
+                                onProfileChange: () =>
+                                    _navigateAndReturnPersonalInfo(context),
+                              ),
+                              verticalSpace(24),
+                              PassengerDetails(
+                                passengers: cubit.passengers,
+                                onAddPassenger: () =>
+                                    _navigateAndReturnPassenger(context),
+                              ),
+                              verticalSpace(24),
+                              _seatNumber(),
+                              verticalSpace(24),
+                              _facility(),
+                              verticalSpace(24),
+                              PriceDetails(
+                                cityName:
+                                    widget.flight.arrival.airport.cityName,
+                              ),
+                              verticalSpace(24),
+                              _continue()
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    orElse: () => const SizedBox.shrink());
+              },
             ),
           ),
         ],
@@ -78,162 +138,54 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
     );
   }
 
-  BackCenteredTitleAppBar _appBar() {
-    return BackCenteredTitleAppBar(
-      title: 'Flight details',
-      action: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.share_rounded),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.favorite_border_outlined),
-        ),
-      ],
-    );
+  Future<void> _navigateAndReturnPersonalInfo(BuildContext context) async {
+    final result = await context.pushNamed(Routes.personalInfo);
+    cubit.emitUserState(result);
+    if (!context.mounted) return;
   }
 
-  Widget _contactDetails() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-          border: Border.all(color: ColorsManager.neutral100, width: 1),
-          borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(Assets.contact),
-              horizontalSpace(8),
-              Text(
-                'Contact Details',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () => context.pushNamed(Routes.personalInfo),
-                child: SvgPicture.asset(Assets.edit),
-              )
-            ],
-          ),
-          Divider(
-            height: 24.h,
-            thickness: 0.5,
-          ),
-          verticalSpace(8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Name', style: TextStyles.font14Neutral900Medium),
-              Text(
-                'Monsieur Nescaffier',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-            ],
-          ),
-          verticalSpace(16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Phone number', style: TextStyles.font14Neutral900Medium),
-              Text(
-                '+213 | 486841621',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _passengerDetails() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-          border: Border.all(color: ColorsManager.neutral100, width: 1),
-          borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(Assets.contact),
-              horizontalSpace(8),
-              Text(
-                'Passenger(s) Details',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () => context.pushNamed(Routes.passenger),
-                child: const Icon(
-                  Icons.add_rounded,
-                  color: ColorsManager.primary500,
-                ),
-              )
-            ],
-          ),
-          Divider(
-            height: 24.h,
-            thickness: 0.5,
-          ),
-          verticalSpace(8),
-          AppTextField(
-            controller: controller,
-            hintText: 'Passenger 1',
-            suffixIcon: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
-              child: SvgPicture.asset(Assets.arrowDownward),
-            ),
-            validator: (value) {},
-          ),
-          verticalSpace(16),
-          AppTextField(
-            controller: controller2,
-            hintText: 'Passenger 2',
-            suffixIcon: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
-              child: SvgPicture.asset(Assets.arrowDownward),
-            ),
-            validator: (value) {},
-          ),
-        ],
-      ),
-    );
+  Future<void> _navigateAndReturnPassenger(BuildContext context) async {
+    final result = await context.pushNamed(Routes.passenger);
+    cubit.emitPassengerState(result);
+    if (!context.mounted) return;
   }
 
   _seatNumber() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-          border: Border.all(color: ColorsManager.neutral100, width: 1),
-          borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                Assets.classIcon,
-                colorFilter: const ColorFilter.mode(
-                  ColorsManager.neutral900,
-                  BlendMode.srcIn,
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(Routes.selectSeat);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        decoration: BoxDecoration(
+            border: Border.all(color: ColorsManager.neutral100, width: 1),
+            borderRadius: BorderRadius.circular(8)),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  Assets.classIcon,
+                  colorFilter: const ColorFilter.mode(
+                    ColorsManager.neutral900,
+                    BlendMode.srcIn,
+                  ),
                 ),
-              ),
-              horizontalSpace(8),
-              Text(
-                'Seat Number',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-              const Spacer(),
-              const Icon(
-                Icons.arrow_forward_ios_outlined,
-                size: 18,
-                color: ColorsManager.primary500,
-              )
-            ],
-          ),
-        ],
+                horizontalSpace(8),
+                Text(
+                  'Seat Number',
+                  style: TextStyles.font14Neutral900Medium,
+                ),
+                const Spacer(),
+                const Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  size: 18,
+                  color: ColorsManager.primary500,
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -266,84 +218,20 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
     );
   }
 
-  Widget _priceDetails() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-          border: Border.all(color: ColorsManager.neutral100, width: 1),
-          borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(Assets.dollar),
-              horizontalSpace(8),
-              Text(
-                'Price Details',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-            ],
-          ),
-          Divider(
-            height: 24.h,
-            thickness: 0.5,
-          ),
-          verticalSpace(8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Da Nang (Adult) x2',
-                  style: TextStyles.font14Neutral900Regular),
-              Text(
-                '\$484.00',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-            ],
-          ),
-          verticalSpace(16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Travel Insurance x2',
-                  style: TextStyles.font14Neutral900Regular),
-              Text(
-                '\$200.00',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-            ],
-          ),
-          verticalSpace(16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Tax x2', style: TextStyles.font14Neutral900Regular),
-              Text(
-                '\$50.00',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-            ],
-          ),
-          Divider(
-            height: 24.h,
-            thickness: 0.5,
-          ),
-          verticalSpace(8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Total Price', style: TextStyles.font14Neutral900Regular),
-              Text(
-                '\$1,200.00',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-            ],
-          ),
-        ],
-      ),
+  Widget _continue() {
+    return AppTextButton(
+      buttonText: 'Continue',
+      onPressed: () {
+        if (cubit.savedSeats.isEmpty) {
+          errorSnackbar(context, 'Please select your seats!');
+        } else if (cubit.user == null ||
+            cubit.user!.username == null ||
+            cubit.user!.phoneNumber == null) {
+          errorSnackbar(context, 'Please Enter your personal info!');
+        } else {
+          context.pushNamed(Routes.flightPayment);
+        }
+      },
     );
-  }
-
-  Widget _addPassenger() {
-    return AppTextButton(buttonText: 'Add Passenger', onPressed: () {});
   }
 }

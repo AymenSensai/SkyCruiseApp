@@ -1,7 +1,7 @@
 class CodeEntity {
   final int code;
 
-  CodeEntity({
+  const CodeEntity({
     required this.code,
   });
 }

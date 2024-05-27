@@ -7,7 +7,7 @@ class SignInRequestBody {
   final String email;
   final String password;
 
-  SignInRequestBody({
+  const SignInRequestBody({
     required this.email,
     required this.password,
   });
@@ -21,7 +21,7 @@ class SignUpRequestBody {
   final String email;
   final String password;
 
-  SignUpRequestBody({
+  const SignUpRequestBody({
     required this.username,
     required this.email,
     required this.password,
@@ -34,7 +34,7 @@ class SignUpRequestBody {
 class SendEmailRequestBody {
   final String email;
 
-  SendEmailRequestBody({
+  const SendEmailRequestBody({
     required this.email,
   });
 
@@ -46,7 +46,7 @@ class PasswordResetRequestBody {
   final String email;
   final String password;
 
-  PasswordResetRequestBody({
+  const PasswordResetRequestBody({
     required this.email,
     required this.password,
   });

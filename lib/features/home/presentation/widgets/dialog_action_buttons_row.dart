@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/app_text_button.dart';

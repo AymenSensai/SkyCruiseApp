@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/routing/routes.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/app_bar.dart';
-import '../../../../core/widgets/flight.dart';
+import '../controllers/search_cubit.dart';
+import '../widgets/search_bloc_builder.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({
+    super.key,
+    required this.departureAirport,
+    required this.arrivalAirport,
+    required this.departureDate,
+    required this.arrivalDate,
+    required this.numberOfPassengers,
+    required this.seatClass,
+  });
+
+  final int numberOfPassengers;
+  final String departureAirport;
+  final String arrivalAirport;
+  final String departureDate;
+  final String arrivalDate;
+  final String seatClass;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -28,6 +43,20 @@ class _SearchScreenState extends State<SearchScreen> {
   int selectedFilter = 0;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    BlocProvider.of<SearchCubit>(context)
+        .changeNumberOfPassengers(widget.numberOfPassengers);
+    BlocProvider.of<SearchCubit>(context).changeSeatClass(widget.seatClass);
+    BlocProvider.of<SearchCubit>(context).searchFlights(
+      widget.departureAirport,
+      widget.arrivalAirport,
+      widget.departureDate,
+      widget.arrivalDate,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const BackCenteredTitleAppBar(title: 'Trips'),
@@ -41,7 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Text(
-                  'Flights to Dubai',
+                  'Flights to ${widget.departureAirport}',
                   style: TextStyles.font18Neutral900Bold,
                 ),
               ),
@@ -50,16 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
               verticalSpace(16),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () => context.pushNamed(Routes.flightDetails),
-                      child: const Flight(),
-                    ),
-                    const Flight(),
-                    const Flight(),
-                  ],
-                ),
+                child: const SearchBlocBuilder(),
               ),
             ],
           ),
@@ -95,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 2.h),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               border: !isSelected
@@ -105,11 +125,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     )
                   : null,
               color: isSelected ? ColorsManager.primary500 : null),
-          child: Text(
-            filter,
-            style: isSelected
-                ? TextStyles.font14Neutral50Regular
-                : TextStyles.font14Neutral900Regular,
+          child: Center(
+            child: Text(
+              filter,
+              style: isSelected
+                  ? TextStyles.font14Neutral50Regular
+                  : TextStyles.font14Neutral900Regular,
+            ),
           )),
     );
   }

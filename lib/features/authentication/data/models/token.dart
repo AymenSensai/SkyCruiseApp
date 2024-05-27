@@ -6,19 +6,14 @@ part 'token.g.dart';
 
 @JsonSerializable()
 class TokenModel {
-  TokenModel({required this.accessToken, required this.refreshToken});
+  const TokenModel({required this.token});
 
-  @JsonKey(name: 'access_token')
-  final String accessToken;
-
-  @JsonKey(name: 'refresh_token')
-  final String refreshToken;
+  final String token;
 
   factory TokenModel.fromJson(Map<String, dynamic> json) =>
       _$TokenModelFromJson(json);
 
   TokenEntity toTokenEntity() => TokenEntity(
-        accessToken: accessToken,
-        refreshToken: refreshToken,
+        token: token,
       );
 }

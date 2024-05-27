@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import 'dialog_action_buttons_row.dart';
@@ -10,7 +10,7 @@ import 'dialog_action_buttons_row.dart';
 class PassengersDialog extends StatefulWidget {
   const PassengersDialog({super.key, required this.onPassengersChanged});
 
-  final VoidCallback onPassengersChanged;
+  final Function(int) onPassengersChanged;
 
   @override
   State<PassengersDialog> createState() => _PassengersDialogState();
@@ -54,7 +54,9 @@ class _PassengersDialogState extends State<PassengersDialog> {
           }),
           verticalSpace(24),
           ActionButtonsRow(
-            onValueChanged: () => widget.onPassengersChanged(),
+            onValueChanged: () => widget.onPassengersChanged(
+              adultsNumber + childrenNumber + infantsNumber,
+            ),
           ),
         ],
       ),

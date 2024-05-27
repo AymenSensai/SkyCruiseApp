@@ -45,6 +45,11 @@ class _DateFieldState extends State<DateField> {
           ),
           borderRadius: BorderRadius.all(Radius.circular(16))),
       readOnly: true,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your date of birth';
+        }
+      },
     );
   }
 

@@ -1,9 +1,7 @@
 class TokenEntity {
-  final String accessToken;
-  final String refreshToken;
+  final String token;
 
-  TokenEntity({
-    required this.accessToken,
-    required this.refreshToken,
+  const TokenEntity({
+    required this.token,
   });
 }

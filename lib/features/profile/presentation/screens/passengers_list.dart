@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/widgets/app_bar.dart';
-import '../../../../core/widgets/app_text_button.dart';
+import '../../domain/entities/passenger.dart';
+import '../controllers/profile_cubit.dart';
+import '../controllers/profile_state.dart';
 
-class PassengersListScreen extends StatelessWidget {
+class PassengersListScreen extends StatefulWidget {
   const PassengersListScreen({super.key});
 
-  static const passengers = [
-    'Mr. Benjamin Thompson',
-    'Mrs. Sophia Rodriguez',
-    'Mr. David Lee',
-    'Mrs. Emily Chen',
-    'Mr. Daniel Johnson',
-    'Mrs. Rachel Patel',
-    'Mr. Michael Nguyen',
-    'Mrs. Lauren Smith',
-  ];
+  @override
+  State<PassengersListScreen> createState() => _PassengersListScreenState();
+}
+
+class _PassengersListScreenState extends State<PassengersListScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    BlocProvider.of<ProfileCubit>(context).getPassengers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +38,28 @@ class PassengersListScreen extends StatelessWidget {
             left: 24.w,
             right: 12.w,
           ),
-          child: CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return _passenger(index, passengers[index]);
-                  },
-                  childCount: passengers.length,
-                ),
-              ),
-              SliverFillRemaining(
-                fillOverscroll: true,
-                hasScrollBody: false,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _saveChangesButton(),
-                ),
-              ),
-            ],
+          child: BlocBuilder<ProfileCubit, ProfileState>(
+            buildWhen: (previous, current) => current is ProfileSuccess,
+            builder: (context, state) {
+              return state.maybeWhen(
+                profileSuccess: (data) {
+                  final passengers = data as List<PassengerEntity>;
+                  return CustomScrollView(
+                    slivers: [
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return _passenger(index, passengers[index].name!);
+                          },
+                          childCount: passengers.length,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
           ),
         ),
       ),
@@ -93,16 +99,6 @@ class PassengersListScreen extends StatelessWidget {
           icon: SvgPicture.asset(Assets.edit),
         )
       ],
-    );
-  }
-
-  Widget _saveChangesButton() {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 24.h),
-      child: AppTextButton(
-        buttonText: 'Save Changes',
-        onPressed: () {},
-      ),
     );
   }
 }

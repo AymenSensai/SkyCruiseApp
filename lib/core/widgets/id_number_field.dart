@@ -19,6 +19,11 @@ class IdNumberField extends StatelessWidget {
         LengthLimitingTextInputFormatter(15),
         CardNumberFormatter(),
       ],
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter passenger id number';
+        }
+      },
     );
   }
 }

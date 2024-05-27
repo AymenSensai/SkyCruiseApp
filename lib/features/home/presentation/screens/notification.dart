@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/helpers/time_formating.dart';
+import '../../../../core/utils/spacing.dart';
+import '../../../../core/utils/time_formating.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
@@ -99,7 +99,7 @@ class NotificationScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      padding: EdgeInsets.only(bottom: 24.w),
+      padding: EdgeInsets.only(bottom: 24.h),
       separatorBuilder: (context, index) => const SizedBox.shrink(),
       itemCount: notifications.length,
       itemBuilder: (context, index) {

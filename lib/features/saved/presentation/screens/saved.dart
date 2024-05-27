@@ -1,34 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/widgets/flights_list_view.dart';
 import '../../../../core/widgets/search_text_button.dart';
+import '../../../search/domain/entities/flight.dart';
+import '../controllers/saved_cubit.dart';
+import '../controllers/saved_state.dart';
 
-class SavedScreen extends StatelessWidget {
+class SavedScreen extends StatefulWidget {
   const SavedScreen({super.key});
+
+  @override
+  State<SavedScreen> createState() => _SavedScreenState();
+}
+
+class _SavedScreenState extends State<SavedScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    BlocProvider.of<SavedCubit>(context).getSavedFlights();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Saved')),
       body: SafeArea(
-          child: Center(
-        child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-            child: Column(
-              children: [emptySaved()],
-            ),
-          ),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        child: BlocBuilder<SavedCubit, SavedState>(
+          buildWhen: (previous, current) =>
+              current is SavedSuccess || current is SavedLoading,
+          builder: (context, state) {
+            return state.maybeWhen(
+              savedSuccess: (data) {
+                final flights = data as List<FlightEntity>;
+                if (flights.isEmpty) {
+                  return Center(child: _emptySaved());
+                } else {
+                  return SingleChildScrollView(
+                      child: FlightsListView(flights: flights));
+                }
+              },
+              orElse: () => const SizedBox.shrink(),
+            );
+          },
         ),
       )),
     );
   }
 
-  Widget emptySaved() {
+  Widget _emptySaved() {
     return Column(
       children: [
         SvgPicture.asset(Assets.savedIllustration),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../helpers/extensions.dart';
+import '../utils/extensions.dart';
 
 class CloseCenteredTitleAppBar extends StatelessWidget
     implements PreferredSizeWidget {

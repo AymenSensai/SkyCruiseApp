@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sky_cruise/features/flight/domain/entities/reservation.dart';
+import 'package:sky_cruise/features/trips/presentation/controllers/trips_cubit.dart';
 
-import '../../../../core/helpers/spacing.dart';
+import '../../../../core/utils/error_snackbar.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/widgets/flights_list_view.dart';
 import '../../../../core/widgets/search_text_button.dart';
+import '../controllers/trips_state.dart';
 
-class TripsScreen extends StatelessWidget {
+class TripsScreen extends StatefulWidget {
   const TripsScreen({super.key});
+
+  @override
+  State<TripsScreen> createState() => _TripsScreenState();
+}
+
+class _TripsScreenState extends State<TripsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<TripsCubit>().getReservations();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +35,34 @@ class TripsScreen extends StatelessWidget {
           child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            children: [emptyTrips()],
+          child: BlocBuilder<TripsCubit, TripsState>(
+            buildWhen: (previous, current) =>
+                current is TripsSuccess || current is TripsLoading,
+            builder: (context, state) {
+              return state.maybeWhen(
+                tripsSuccess: (data) {
+                  final trips = data as List<ReservationEntity>;
+                  if (trips.isEmpty) {
+                    return Center(child: _emptyTrips());
+                  } else {
+                    return FlightsListView(
+                        flights: trips.map((e) => e.flight).toList());
+                  }
+                },
+                tripsError: (error) {
+                  errorSnackbar(context, error);
+                  return const SizedBox.shrink();
+                },
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
           ),
         ),
       )),
     );
   }
 
-  Widget emptyTrips() {
+  Widget _emptyTrips() {
     return Column(
       children: [
         SvgPicture.asset(Assets.tripsIllustration),
