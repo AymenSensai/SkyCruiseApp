@@ -4,29 +4,49 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:sky_cruise/features/search/presentation/controllers/search_cubit.dart';
 
+import '../../features/flight/domain/entities/reservation.dart';
 import '../../features/search/domain/entities/flight.dart';
-import '../utils/extensions.dart';
-import '../utils/spacing.dart';
-import '../utils/time_formating.dart';
+import '../../features/search/presentation/controllers/search_cubit.dart';
 import '../routing/routes.dart';
 import '../theming/styles.dart';
 import '../utils/assets.dart';
+import '../utils/extensions.dart';
+import '../utils/spacing.dart';
+import '../utils/time_formating.dart';
 
 class Flight extends StatelessWidget {
-  const Flight({super.key, required this.flight});
+  const Flight({super.key, required this.flight, this.reservation});
 
   final FlightEntity flight;
+  final ReservationEntity? reservation;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushNamed(Routes.flightDetails, arguments: [
-        flight,
-        BlocProvider.of<SearchCubit>(context).numberOfPassengers,
-        BlocProvider.of<SearchCubit>(context).seatClass,
-      ]),
+      onTap: () {
+        if (reservation != null) {
+          context.pushNamed(Routes.flightTicket, arguments: reservation);
+        } else {
+          try {
+            context.pushNamed(Routes.flightDetails, arguments: [
+              flight,
+              BlocProvider.of<SearchCubit>(context).numberOfPassengers,
+              BlocProvider.of<SearchCubit>(context).seatClass,
+              BlocProvider.of<SearchCubit>(context).arrivalDate,
+            ]);
+          } catch (e) {
+            context.pushNamed(
+              Routes.flightDetails,
+              arguments: [
+                flight,
+                1,
+                'Economy',
+              ],
+            );
+          }
+        }
+      },
       child: Stack(
         children: [
           SvgPicture.asset(Assets.overlay),

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sky_cruise/features/flight/presentation/controllers/flight_cubit.dart';
-import 'package:sky_cruise/features/flight/presentation/screens/flight_payment.dart';
-import 'package:sky_cruise/features/flight/presentation/screens/flight_ticket.dart';
-import 'package:sky_cruise/features/flight/presentation/screens/select_seats.dart';
 
 import '../../features/authentication/presentation/controllers/auth_cubit.dart';
 import '../../features/authentication/presentation/screens/confirm_new_password.dart';
@@ -12,7 +8,12 @@ import '../../features/authentication/presentation/screens/forget_password_scree
 import '../../features/authentication/presentation/screens/sign_in_screen.dart';
 import '../../features/authentication/presentation/screens/sign_up_screen.dart';
 import '../../features/authentication/presentation/screens/welcome_screen.dart';
+import '../../features/flight/domain/entities/reservation.dart';
+import '../../features/flight/presentation/controllers/flight_cubit.dart';
 import '../../features/flight/presentation/screens/flight_details.dart';
+import '../../features/flight/presentation/screens/flight_payment.dart';
+import '../../features/flight/presentation/screens/flight_ticket.dart';
+import '../../features/flight/presentation/screens/select_seats.dart';
 import '../../features/home/presentation/controllers/home_cubit.dart';
 import '../../features/home/presentation/screens/airport_search.dart';
 import '../../features/home/presentation/screens/notification.dart';
@@ -151,6 +152,7 @@ class AppRouter {
               flight: argumentsList[0],
               numberOfPassengers: argumentsList[1],
               seatClass: argumentsList[2],
+              arrivalDate: argumentsList[3],
             ),
           ),
         );
@@ -172,7 +174,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: flightCubit,
-            child: const FlightTicketScreen(),
+            child:
+                FlightTicketScreen(reservation: arguments as ReservationEntity),
           ),
         );
       case Routes.appHome:

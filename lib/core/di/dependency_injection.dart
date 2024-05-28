@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sky_cruise/features/flight/domain/usecases/check_saved_flight_usecase.dart';
-import 'package:sky_cruise/features/flight/domain/usecases/make_payment_usecase.dart';
-import 'package:sky_cruise/features/flight/presentation/controllers/flight_cubit.dart';
-import 'package:sky_cruise/features/trips/presentation/controllers/trips_cubit.dart';
 
 import '../../features/authentication/data/repos/auth_repo_impl.dart';
 import '../../features/authentication/domain/repos/auth_repo.dart';
@@ -15,8 +11,12 @@ import '../../features/authentication/presentation/controllers/auth_cubit.dart';
 import '../../features/flight/data/repos/flight_repo_impl.dart';
 import '../../features/flight/domain/repos/flight_repo.dart';
 import '../../features/flight/domain/usecases/add_saved_flight_usecase.dart';
+import '../../features/flight/domain/usecases/check_saved_flight_usecase.dart';
 import '../../features/flight/domain/usecases/delete_saved_flight_usecase.dart';
+import '../../features/flight/domain/usecases/get_seats_reserved_usecase.dart';
+import '../../features/flight/domain/usecases/make_payment_usecase.dart';
 import '../../features/flight/domain/usecases/reserve_flight_usecase.dart';
+import '../../features/flight/presentation/controllers/flight_cubit.dart';
 import '../../features/home/data/repos/home_repo_impl.dart';
 import '../../features/home/domain/repos/home_repo.dart';
 import '../../features/home/domain/usecases/get_airports_usecase.dart';
@@ -40,6 +40,7 @@ import '../../features/search/presentation/controllers/search_cubit.dart';
 import '../../features/trips/data/repos/trips_repo_impl.dart';
 import '../../features/trips/domain/repos/trips_repo.dart';
 import '../../features/trips/domain/usecases/get_saved_flights_usecase.dart';
+import '../../features/trips/presentation/controllers/trips_cubit.dart';
 import '../networking/api_service.dart';
 import '../networking/dio_factory.dart';
 import '../networking/stripe_dio_factory.dart';
@@ -118,6 +119,8 @@ Future<void> setupGetIt() async {
       () => ReserveFlightUseCase(getIt()));
   getIt.registerLazySingleton<MakePaymentUseCase>(
       () => MakePaymentUseCase(getIt()));
-  getIt.registerFactory<FlightCubit>(() => FlightCubit(
+  getIt.registerLazySingleton<GetSeatsReservedUseCase>(
+      () => GetSeatsReservedUseCase(getIt()));
+  getIt.registerFactory<FlightCubit>(() => FlightCubit(getIt(), getIt(),
       getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
 }

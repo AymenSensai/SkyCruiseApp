@@ -1,6 +1,5 @@
-import 'package:sky_cruise/features/flight/domain/entities/reservation.dart';
-
 import '../../../../core/networking/api_result.dart';
+import '../../../flight/domain/entities/reservation.dart';
 import '../repos/trips_repo.dart';
 
 class GetReservationsUseCase {

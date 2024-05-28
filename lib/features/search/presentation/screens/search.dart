@@ -13,18 +13,18 @@ class SearchScreen extends StatefulWidget {
   const SearchScreen({
     super.key,
     required this.departureAirport,
-    required this.arrivalAirport,
+    this.arrivalAirport,
     required this.departureDate,
-    required this.arrivalDate,
+    this.arrivalDate,
     required this.numberOfPassengers,
     required this.seatClass,
   });
 
   final int numberOfPassengers;
   final String departureAirport;
-  final String arrivalAirport;
+  final String? arrivalAirport;
   final String departureDate;
-  final String arrivalDate;
+  final String? arrivalDate;
   final String seatClass;
 
   @override
@@ -48,12 +48,9 @@ class _SearchScreenState extends State<SearchScreen> {
     BlocProvider.of<SearchCubit>(context)
         .changeNumberOfPassengers(widget.numberOfPassengers);
     BlocProvider.of<SearchCubit>(context).changeSeatClass(widget.seatClass);
+    BlocProvider.of<SearchCubit>(context).changeArrivalDate(widget.arrivalDate);
     BlocProvider.of<SearchCubit>(context).searchFlights(
-      widget.departureAirport,
-      widget.arrivalAirport,
-      widget.departureDate,
-      widget.arrivalDate,
-    );
+        widget.departureAirport, widget.arrivalAirport, widget.departureDate);
   }
 
   @override
@@ -105,6 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
             setState(() {
               selectedFilter = index;
             });
+            BlocProvider.of<SearchCubit>(context).changeFilter(filter);
           });
         },
       ),

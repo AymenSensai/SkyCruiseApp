@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:sky_cruise/features/flight/data/models/reservation.dart';
-import 'package:sky_cruise/features/flight/data/models/reservation_request_body.dart';
 
 import '../../features/authentication/data/models/auth_request_body.dart';
 import '../../features/authentication/data/models/code.dart';
 import '../../features/authentication/data/models/token.dart';
+import '../../features/flight/data/models/reservation.dart';
+import '../../features/flight/data/models/reservation_request_body.dart';
+import '../../features/flight/data/models/seat.dart';
 import '../../features/home/data/models/airport.dart';
 import '../../features/profile/data/models/passenger.dart';
 import '../../features/profile/data/models/user.dart';
@@ -86,11 +87,16 @@ abstract class ApiService {
     @Path("flightId") int flightId,
   );
   @POST(ApiConstants.reservations)
-  Future<void> reserveFlight(
+  Future<ReservationModel> reserveFlight(
     @Header("Authorization") String bearerToken,
     @Body() ReservationRequestBody reservation,
   );
   @GET(ApiConstants.reservations)
   Future<List<ReservationModel>> getReservations(
       @Header("Authorization") String bearerToken);
+  @GET("${ApiConstants.seatsReserved}/{flightId}")
+  Future<List<SeatModel>> getSeatsReserved(
+    @Header("Authorization") String bearerToken,
+    @Path("flightId") int flightId,
+  );
 }

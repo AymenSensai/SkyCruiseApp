@@ -27,11 +27,13 @@ class FlightDetailsScreen extends StatefulWidget {
     required this.flight,
     this.numberOfPassengers,
     this.seatClass,
+    this.arrivalDate,
   });
 
   final FlightEntity flight;
   final int? numberOfPassengers;
   final String? seatClass;
+  final String? arrivalDate;
 
   @override
   State<FlightDetailsScreen> createState() => _FlightDetailsScreenState();
@@ -46,10 +48,11 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
     cubit = context.read<FlightCubit>();
 
     cubit.checkSavedFlight(widget.flight.id);
-    cubit.fetchProfileAndPassengers();
+    cubit.fetchProfileAndPassengersAndReturnFlight(widget.arrivalDate);
     cubit.changeFlight(widget.flight);
     cubit.changeNumberOfPassengers(widget.numberOfPassengers ?? 1);
     cubit.changeSeatClass(widget.seatClass ?? 'Economy');
+    cubit.getSeatsReserved();
   }
 
   @override
@@ -101,6 +104,9 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
                           child: Column(
                             children: [
                               Flight(flight: widget.flight),
+                              cubit.arrivalFlight != null
+                                  ? Flight(flight: cubit.arrivalFlight!)
+                                  : const SizedBox.shrink(),
                               verticalSpace(16),
                               ContactDetails(
                                 user: cubit.user,
@@ -115,8 +121,6 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
                               ),
                               verticalSpace(24),
                               _seatNumber(),
-                              verticalSpace(24),
-                              _facility(),
                               verticalSpace(24),
                               PriceDetails(
                                 cityName:
@@ -186,34 +190,6 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  _facility() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-          border: Border.all(color: ColorsManager.neutral100, width: 1),
-          borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(Assets.suitcase),
-              horizontalSpace(8),
-              Text(
-                'Facility',
-                style: TextStyles.font14Neutral900Medium,
-              ),
-              const Spacer(),
-              const Icon(
-                Icons.add_rounded,
-                color: ColorsManager.primary500,
-              )
-            ],
-          ),
-        ],
       ),
     );
   }

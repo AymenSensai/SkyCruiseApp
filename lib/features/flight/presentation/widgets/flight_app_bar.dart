@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sky_cruise/core/utils/extensions.dart';
-import 'package:sky_cruise/features/flight/presentation/controllers/flight_cubit.dart';
 
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/utils/extensions.dart';
+import '../controllers/flight_cubit.dart';
 import '../controllers/flight_state.dart';
 
 class FlightAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -29,14 +29,14 @@ class FlightAppBar extends StatelessWidget implements PreferredSizeWidget {
           builder: (context, state) {
             return state.maybeWhen(
                 flightLoading: () => _AppBar(
-                      isSaved: context.read<FlightCubit>().isSaved,
+                      isSaved: context.read<FlightCubit>().isSaved ?? false,
                       isBack: isBack,
                     ),
                 flightSuccess: (response) => _AppBar(
-                    isSaved: context.read<FlightCubit>().isSaved,
+                    isSaved: context.read<FlightCubit>().isSaved ?? false,
                     isBack: isBack),
                 flightError: (error) => _AppBar(
-                    isSaved: context.read<FlightCubit>().isSaved,
+                    isSaved: context.read<FlightCubit>().isSaved ?? false,
                     isBack: isBack),
                 orElse: () => const SizedBox.shrink());
           },
@@ -86,10 +86,6 @@ class _AppBarState extends State<_AppBar> {
               ),
             ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.share_rounded),
-        ),
         IconButton(
           onPressed: () {
             if (_isSaved) {

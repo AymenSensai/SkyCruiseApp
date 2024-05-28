@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sky_cruise/features/profile/domain/entities/user.dart';
 
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/utils/spacing.dart';
+import '../../../profile/domain/entities/user.dart';
 
 class ContactDetails extends StatefulWidget {
   const ContactDetails(

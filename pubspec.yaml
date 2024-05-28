@@ -72,8 +72,9 @@ dependencies:
   flutter_stripe: ^10.0.0
   # Barcode generation library.
   barcode: ^2.2.8
-   # To store sensitive data in .env file.
+  # To store sensitive data in .env file.
   flutter_dotenv: ^5.1.0
+
 
 dev_dependencies:
   flutter_test:

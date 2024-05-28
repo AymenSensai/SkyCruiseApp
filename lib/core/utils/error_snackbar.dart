@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sky_cruise/core/utils/spacing.dart';
 
 import '../theming/styles.dart';
+import 'spacing.dart';
 
 void errorSnackbar(BuildContext context, String error) {
   ScaffoldMessenger.of(context).showSnackBar(

@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sky_cruise/features/flight/domain/entities/payment.dart';
+
+import '../../domain/entities/payment.dart';
+
 part 'payment.g.dart';
 
 @JsonSerializable()

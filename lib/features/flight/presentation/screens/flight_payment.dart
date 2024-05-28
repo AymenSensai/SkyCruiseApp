@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/routing/routes.dart';
-import 'package:sky_cruise/core/utils/extensions.dart';
-import 'package:sky_cruise/features/flight/presentation/controllers/flight_cubit.dart';
-import 'package:sky_cruise/features/flight/presentation/controllers/flight_state.dart';
 
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/utils/error_snackbar.dart';
+import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/spacing.dart';
 import '../../../../core/widgets/app_text_button.dart';
 import '../../../../core/widgets/flight.dart';
+import '../../domain/entities/reservation.dart';
+import '../controllers/flight_cubit.dart';
+import '../controllers/flight_state.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/flight_app_bar.dart';
 import '../widgets/price_details.dart';
@@ -85,7 +86,11 @@ class _FlightPaymentScreenState extends State<FlightPaymentScreen> {
       listenWhen: (previous, current) => current is FlightSuccess,
       listener: (context, state) {
         state.whenOrNull(
-          flightSuccess: (response) => context.pushNamed(Routes.flightTicket),
+          flightSuccess: (response) {
+            if (response != null && response is ReservationEntity) {
+              context.pushNamed(Routes.flightTicket, arguments: response);
+            }
+          },
           flightError: (error) => errorSnackbar(context, error),
         );
       },

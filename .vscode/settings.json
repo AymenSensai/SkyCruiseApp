@@ -12,6 +12,7 @@
         "svgs",
         "toggleable",
         "usecase",
-        "usecases"
+        "usecases",
+        "vsync"
     ]
 }

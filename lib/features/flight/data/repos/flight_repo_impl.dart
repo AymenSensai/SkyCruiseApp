@@ -1,14 +1,15 @@
-import 'package:sky_cruise/core/networking/api_result.dart';
-import 'package:sky_cruise/features/flight/data/models/reservation_request_body.dart';
-import 'package:sky_cruise/features/flight/domain/repos/flight_repo.dart';
-
 import '../../../../core/networking/api_error_handler.dart';
+import '../../../../core/networking/api_result.dart';
 import '../../../../core/networking/api_service.dart';
 import '../../../../core/networking/stripe_service.dart';
 import '../../../../core/utils/shared_prefs.dart';
 import '../../../profile/domain/entities/user.dart';
 import '../../domain/entities/payment.dart';
+import '../../domain/entities/reservation.dart';
+import '../../domain/entities/seat.dart';
+import '../../domain/repos/flight_repo.dart';
 import '../models/payment_request_body.dart';
+import '../models/reservation_request_body.dart';
 
 class FlightRepoImpl extends FlightRepo {
   final ApiService _apiService;
@@ -61,8 +62,8 @@ class FlightRepoImpl extends FlightRepo {
   }
 
   @override
-  Future<ApiResult> reserveFlight(int flightId, List<int> passengers,
-      List<String> seats, String seatClass) async {
+  Future<ApiResult<ReservationEntity>> reserveFlight(int flightId,
+      List<int> passengers, List<String> seats, String seatClass) async {
     try {
       final token = SharedPreferencesService.getToken();
       List<ReservationSeatRequestBody> requestBodies = [];
@@ -82,8 +83,9 @@ class FlightRepoImpl extends FlightRepo {
         status: 'confirmed',
         reservationSeats: requestBodies,
       );
-      await _apiService.reserveFlight('Bearer $token', reserve);
-      return const ApiResult.success(null);
+      final response =
+          await _apiService.reserveFlight('Bearer $token', reserve);
+      return ApiResult.success(response.toReservationEntity());
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
     }
@@ -96,6 +98,20 @@ class FlightRepoImpl extends FlightRepo {
       final response = await _stripeService
           .getClientSecret(PaymentRequestBody(amount, currency));
       return ApiResult.success(response.toPaymentEntity());
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<SeatEntity>>> getSeatsReserved(int flightId) async {
+    try {
+      final token = SharedPreferencesService.getToken();
+      final response =
+          await _apiService.getSeatsReserved('Bearer $token', flightId);
+      final seatsEntity =
+          response.map((seatModel) => seatModel.toSeatEntity()).toList();
+      return ApiResult.success(seatsEntity);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
     }

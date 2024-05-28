@@ -10,8 +10,9 @@ ReservationModel _$ReservationModelFromJson(Map<String, dynamic> json) =>
     ReservationModel(
       id: (json['id'] as num).toInt(),
       flight: FlightModel.fromJson(json['flight'] as Map<String, dynamic>),
-      date: DateTime.parse(json['date'] as String),
+      date: json['date'] as String,
       status: json['status'] as String,
+      number: json['number'] as String,
       reservationSeats: (json['reservation_seats'] as List<dynamic>)
           .map((e) => ReservationSeatModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,9 +22,9 @@ ReservationSeatModel _$ReservationSeatModelFromJson(
         Map<String, dynamic> json) =>
     ReservationSeatModel(
       id: (json['id'] as num).toInt(),
-      passenger: (json['passenger'] as num).toInt(),
-      seatNumber: json['seat_number'] as String,
-      seatClass: json['seat_class'] as String,
+      passenger:
+          PassengerModel.fromJson(json['passenger'] as Map<String, dynamic>),
+      seat: SeatDetailsModel.fromJson(json['seat'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ReservationSeatModelToJson(
@@ -31,6 +32,19 @@ Map<String, dynamic> _$ReservationSeatModelToJson(
     <String, dynamic>{
       'id': instance.id,
       'passenger': instance.passenger,
+      'seat': instance.seat,
+    };
+
+SeatDetailsModel _$SeatDetailsModelFromJson(Map<String, dynamic> json) =>
+    SeatDetailsModel(
+      isAvailable: json['is_available'] as bool,
+      seatNumber: json['seat_number'] as String,
+      seatClass: json['seat_class'] as String,
+    );
+
+Map<String, dynamic> _$SeatDetailsModelToJson(SeatDetailsModel instance) =>
+    <String, dynamic>{
       'seat_number': instance.seatNumber,
       'seat_class': instance.seatClass,
+      'is_available': instance.isAvailable,
     };

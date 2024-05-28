@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sky_cruise/core/theming/colors.dart';
-import 'package:sky_cruise/core/theming/styles.dart';
-import 'package:sky_cruise/core/utils/extensions.dart';
-import 'package:sky_cruise/core/utils/spacing.dart';
-import 'package:sky_cruise/core/widgets/app_bar.dart';
 
+import '../../../../core/theming/colors.dart';
+import '../../../../core/theming/styles.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
+import '../../../../core/widgets/app_bar.dart';
 import '../../../../core/widgets/app_text_button.dart';
 import '../controllers/flight_cubit.dart';
 
@@ -106,6 +106,10 @@ class _SelectSeatState extends State<SelectSeatScreen> {
                                 });
                               },
                               selectedSeats: selectedSeats,
+                              isAvailable: !context
+                                  .read<FlightCubit>()
+                                  .seatsReserved
+                                  .any((e) => e.seatNumber == seats[index]),
                             );
                           },
                         ),
@@ -193,8 +197,8 @@ class SeatInfoRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         _buildSeatInfo(ColorsManager.primary500, 'Selected'),
-        _buildSeatInfo(ColorsManager.primary50, 'Available'),
-        _buildSeatInfo(null, 'Occupied', isBordered: true),
+        _buildSeatInfo(ColorsManager.primary50, 'Occupied'),
+        _buildSeatInfo(null, 'Available', isBordered: true),
       ],
     );
   }
@@ -226,12 +230,14 @@ class SeatBox extends StatefulWidget {
   final String seatNumber;
   final Function(String) seatSelected;
   final List<String> selectedSeats;
+  final bool isAvailable;
 
   const SeatBox({
     super.key,
     required this.seatNumber,
     required this.seatSelected,
     required this.selectedSeats,
+    required this.isAvailable,
   });
 
   @override
@@ -244,23 +250,34 @@ class _SeatBoxState extends State<SeatBox> {
     final isSelected = widget.selectedSeats.contains(widget.seatNumber);
     return GestureDetector(
       onTap: () {
-        widget.seatSelected(widget.seatNumber);
+        if (widget.isAvailable) {
+          widget.seatSelected(widget.seatNumber);
+        }
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected ? ColorsManager.primary500 : null,
+            color: !widget.isAvailable
+                ? ColorsManager.primary50
+                : isSelected
+                    ? ColorsManager.primary500
+                    : null,
             borderRadius: BorderRadius.circular(8.0),
-            border:
-                isSelected ? null : Border.all(color: ColorsManager.neutral300),
+            border: !widget.isAvailable
+                ? null
+                : isSelected
+                    ? null
+                    : Border.all(color: ColorsManager.neutral300),
           ),
           child: Text(
             widget.seatNumber,
-            style: isSelected
-                ? TextStyles.font16Neutral50Medium
-                : TextStyles.font16Neutral900Medium,
+            style: !widget.isAvailable
+                ? TextStyles.font16Neutral900Medium
+                : isSelected
+                    ? TextStyles.font16Neutral50Medium
+                    : TextStyles.font16Neutral900Medium,
           ),
         ),
       ),

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:sky_cruise/core/networking/api_constants.dart';
 
 import '../../features/flight/data/models/payment.dart';
 import '../../features/flight/data/models/payment_request_body.dart';
+import 'api_constants.dart';
 
 part 'stripe_service.g.dart';
 

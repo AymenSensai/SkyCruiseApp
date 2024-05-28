@@ -41,6 +41,10 @@ class FlightEntity {
         calculateTravelInsurancePrice(numberOfPassengers) +
         calculateTaxPrice(numberOfPassengers);
   }
+
+  Duration getDuration() {
+    return arrival.date.difference(departure.date);
+  }
 }
 
 class FlightDetailsEntity {

@@ -20,10 +20,9 @@ class SearchBlocBuilder extends StatelessWidget {
       builder: (context, state) {
         return state.maybeWhen(
             searchLoading: () {
-              return Align(
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator(
-                    color: ColorsManager.primary500),
+              return const Center(
+                child:
+                    CircularProgressIndicator(color: ColorsManager.primary500),
               );
             },
             searchSuccess: (response) {

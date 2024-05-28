@@ -20,6 +20,7 @@ class ApiConstants {
   static const String checkSavedFlight = "user/check-saved-flight";
 
   static const String reservations = "reservations";
+  static const String seatsReserved = "reservations/reserved-seats";
 }
 
 class ApiErrors {

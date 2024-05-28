@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sky_cruise/features/trips/domain/usecases/get_saved_flights_usecase.dart';
 
+import '../../domain/usecases/get_saved_flights_usecase.dart';
 import 'trips_state.dart';
 
 class TripsCubit extends Cubit<TripsState> {

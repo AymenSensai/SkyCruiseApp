@@ -9,9 +9,13 @@ import '../../../../core/theming/styles.dart';
 import 'dialog_action_buttons_row.dart';
 
 class DateDialog extends StatefulWidget {
-  const DateDialog({super.key, required this.onPassengersChanged});
+  const DateDialog(
+      {super.key,
+      required this.onPassengersChanged,
+      this.singleSelection = false});
 
   final Function(List<DateTime>) onPassengersChanged;
+  final bool singleSelection;
 
   @override
   State<DateDialog> createState() => _DateDialogState();
@@ -26,7 +30,6 @@ class _DateDialogState extends State<DateDialog> {
       height: 500,
       padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
       child: Column(
-        // mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'Select Date',
@@ -77,16 +80,19 @@ class _DateDialogState extends State<DateDialog> {
             DateFormat.E(locale).format(date)[0],
       ),
       onDaySelected: (selectedDay, focusedDay) {
-        if (selectedDates.length < 2) {
-          setState(() {
+        setState(() {
+          if (widget.singleSelection) {
+            selectedDates.clear();
             selectedDates.add(selectedDay);
-          });
-        } else if (selectedDates.length == 2) {
-          setState(() {
-            selectedDates.removeLast();
-            selectedDates[0] = selectedDay;
-          });
-        }
+          } else {
+            if (selectedDates.length < 2) {
+              selectedDates.add(selectedDay);
+            } else {
+              selectedDates[0] = selectedDay;
+              selectedDates.removeLast();
+            }
+          }
+        });
       },
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, date, events) {

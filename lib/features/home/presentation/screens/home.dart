@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:sky_cruise/features/home/domain/entities/airport.dart';
 
-import '../../../../core/utils/extensions.dart';
-import '../../../../core/utils/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/spacing.dart';
 import '../../../../core/utils/time_formating.dart';
 import '../../../../core/widgets/app_text_button.dart';
+import '../../domain/entities/airport.dart';
 import '../widgets/date_dialog.dart';
 import '../widgets/passengers_dialog.dart';
 import '../widgets/seat_dialog.dart';
@@ -23,13 +23,37 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   AirportEntity? departureAirport;
   AirportEntity? arrivalAirport;
   String departureDate = '2024-06-01';
-  String arrivalDate = '2024-06-03';
+  String? arrivalDate;
   String seatClass = 'Economy';
   int numberOfPassengers = 1;
+  late TabController _tabController;
+  int _selectedTabIndex = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.index = 1;
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    setState(() {
+      _selectedTabIndex = _tabController.index;
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_handleTabSelection);
+    _tabController.dispose();
+    super.dispose();
+  }
 
   Future<AirportEntity?> _navigateAndReturnAirport(
       BuildContext context, String argument) async {
@@ -90,18 +114,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           },
                         ),
-                        verticalSpace(24),
-                        _field(
-                          'To',
-                          SvgPicture.asset(Assets.airplaneDown),
-                          '${arrivalAirport?.cityName ?? 'Tokyo'} (${arrivalAirport?.code ?? 'HND'})',
-                          () async {
-                            final result = await _navigateAndReturnAirport(
-                                context, 'Select Destination');
-                            setState(() {
-                              arrivalAirport = result!;
-                            });
-                          },
+                        Column(
+                          children: [
+                            verticalSpace(24),
+                            _field(
+                              'To',
+                              SvgPicture.asset(Assets.airplaneDown),
+                              '${arrivalAirport?.cityName ?? 'Tokyo'} (${arrivalAirport?.code ?? 'HND'})',
+                              () async {
+                                final result = await _navigateAndReturnAirport(
+                                    context, 'Select Destination');
+                                setState(() {
+                                  arrivalAirport = result!;
+                                });
+                              },
+                            )
+                          ],
                         ),
                         verticalSpace(24),
                         _field(
@@ -112,11 +140,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             context: context,
                             backgroundColor: ColorsManager.whiteBackground,
                             builder: (context) => DateDialog(
+                              singleSelection:
+                                  _selectedTabIndex == 0 ? true : false,
                               onPassengersChanged: (dates) {
-                                departureDate =
-                                    DateFormat('yyyy-MM-dd').format(dates[0]);
-                                arrivalDate =
-                                    DateFormat('yyyy-MM-dd').format(dates[1]);
+                                setState(() {
+                                  departureDate =
+                                      DateFormat('yyyy-MM-dd').format(dates[0]);
+
+                                  if (_selectedTabIndex != 0) {
+                                    arrivalDate = DateFormat('yyyy-MM-dd')
+                                        .format(dates[1]);
+                                  }
+                                });
                               },
                             ),
                           ),
@@ -211,6 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 3,
       child: TabBar(
+        controller: _tabController,
         labelColor: ColorsManager.primary500,
         unselectedLabelColor: ColorsManager.neutral600,
         indicatorColor: ColorsManager.primary500,
@@ -264,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
       buttonText: 'Search flight',
       onPressed: () => context.pushNamed(Routes.search, arguments: [
         departureAirport?.code ?? 'IAD',
-        arrivalAirport?.code ?? 'HND',
+        arrivalAirport?.code,
         departureDate,
         arrivalDate,
         numberOfPassengers,

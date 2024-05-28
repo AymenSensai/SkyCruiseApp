@@ -8,12 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sky_cruise/core/routing/app_router.dart';
+import 'package:sky_cruise/features/home/presentation/screens/home.dart';
 import 'package:sky_cruise/skycruise_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(SkyCruiseApp(appRouter: AppRouter(),initialRoute: '/'));
+    await tester.pumpWidget(
+        SkyCruiseApp(appRouter: AppRouter(), initialRoute: const HomeScreen()));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

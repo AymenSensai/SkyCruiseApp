@@ -1,16 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:sky_cruise/features/flight/domain/usecases/check_saved_flight_usecase.dart';
-import 'package:sky_cruise/features/flight/domain/usecases/reserve_flight_usecase.dart';
-import 'package:sky_cruise/features/profile/domain/entities/user.dart';
-import 'package:sky_cruise/features/search/domain/entities/flight.dart';
+import 'package:sky_cruise/features/search/domain/usecases/search_flights_usecase.dart';
 
+import '../../../../core/networking/api_result.dart';
 import '../../../profile/domain/entities/passenger.dart';
+import '../../../profile/domain/entities/user.dart';
 import '../../../profile/domain/usecases/get_passengers_usecase.dart';
 import '../../../profile/domain/usecases/get_profile_usecase.dart';
+import '../../../search/domain/entities/flight.dart';
+import '../../domain/entities/seat.dart';
 import '../../domain/usecases/add_saved_flight_usecase.dart';
+import '../../domain/usecases/check_saved_flight_usecase.dart';
 import '../../domain/usecases/delete_saved_flight_usecase.dart';
+import '../../domain/usecases/get_seats_reserved_usecase.dart';
 import '../../domain/usecases/make_payment_usecase.dart';
+import '../../domain/usecases/reserve_flight_usecase.dart';
 import 'flight_state.dart';
 
 class FlightCubit extends Cubit<FlightState> {
@@ -22,6 +26,8 @@ class FlightCubit extends Cubit<FlightState> {
     this._reserveFlightUseCase,
     this._makePaymentUseCase,
     this._checkSavedFlightUseCase,
+    this._getSeatsReservedUseCase,
+    this._searchFlightsUseCase,
   ) : super(const FlightState.initial());
 
   final AddSavedFlightUseCase _addSavedFlightUseCase;
@@ -31,15 +37,19 @@ class FlightCubit extends Cubit<FlightState> {
   final GetPassengersUseCase _getPassengersUseCase;
   final ReserveFlightUseCase _reserveFlightUseCase;
   final MakePaymentUseCase _makePaymentUseCase;
+  final GetSeatsReservedUseCase _getSeatsReservedUseCase;
+  final SearchFlightsUseCase _searchFlightsUseCase;
 
   int? numberOfPassengers;
   List<PassengerEntity>? passengers = [];
   List<String> selectedPassengers = [];
   FlightEntity? flight;
+  FlightEntity? arrivalFlight;
   UserEntity? user;
   List<String> savedSeats = [];
   String seatClass = '';
-  bool isSaved = false;
+  bool? isSaved;
+  List<SeatEntity> seatsReserved = [];
 
   void fillSelectedPassengers() {
     selectedPassengers = [];
@@ -69,37 +79,75 @@ class FlightCubit extends Cubit<FlightState> {
     this.flight = flight;
   }
 
-  void fetchProfileAndPassengers() async {
+  void fetchProfileAndPassengersAndReturnFlight(String? date) async {
     emit(const FlightState.flightLoading());
 
-    final results = await Future.wait([
-      _getProfileUseCase.call(),
-      _getPassengersUseCase.call(),
-    ]);
+    try {
+      List<Future<ApiResult<Object>>> futures = [
+        _getProfileUseCase.call(),
+        _getPassengersUseCase.call(),
+      ];
 
-    final profileResponse = results[0];
-    final passengersResponse = results[1];
+      if (date != null && flight != null) {
+        futures.add(_searchFlightsUseCase.call(
+          flight!.arrival.airport.code,
+          flight!.departure.airport.code,
+          date,
+          null,
+        ));
+      }
 
-    profileResponse.when(
-      success: (profileData) {
-        passengersResponse.when(
-          success: (passengersData) {
-            user = profileData as UserEntity;
-            passengers = passengersData as List<PassengerEntity>;
-            fillSelectedPassengers();
-            emit(const FlightState.flightSuccess(null));
-          },
-          failure: (passengerError) {
-            emit(FlightState.flightError(
-                error: passengerError.apiErrorModel.message ?? ''));
-          },
-        );
-      },
-      failure: (profileError) {
-        emit(FlightState.flightError(
-            error: profileError.apiErrorModel.message ?? ''));
-      },
-    );
+      List<ApiResult<Object>> results = await Future.wait(futures);
+
+      final profileResponse = results[0];
+      final passengersResponse = results[1];
+      final flightsResponse = results.length > 2 ? results[2] : null;
+
+      profileResponse.when(
+        success: (profileData) {
+          passengersResponse.when(
+            success: (passengersData) {
+              if (flightsResponse != null) {
+                flightsResponse.when(
+                  success: (flightData) {
+                    user = profileData as UserEntity;
+                    passengers = passengersData as List<PassengerEntity>;
+                    final flights = flightData as List<FlightEntity>;
+                    if (flights.isNotEmpty) {
+                      arrivalFlight = flights[0];
+                    }
+                    fillSelectedPassengers();
+                    emit(const FlightState.flightSuccess(null));
+                  },
+                  failure: (flightError) {
+                    emit(FlightState.flightError(
+                        error: flightError.apiErrorModel.message ??
+                            'Flight fetch error'));
+                  },
+                );
+              } else {
+                user = profileData as UserEntity;
+                passengers = passengersData as List<PassengerEntity>;
+                fillSelectedPassengers();
+                emit(const FlightState.flightSuccess(null));
+              }
+            },
+            failure: (passengerError) {
+              emit(FlightState.flightError(
+                  error: passengerError.apiErrorModel.message ??
+                      'Passenger fetch error'));
+            },
+          );
+        },
+        failure: (profileError) {
+          emit(FlightState.flightError(
+              error:
+                  profileError.apiErrorModel.message ?? 'Profile fetch error'));
+        },
+      );
+    } catch (error) {
+      emit(FlightState.flightError(error: error.toString()));
+    }
   }
 
   void addSavedFlight() async {
@@ -192,6 +240,16 @@ class FlightCubit extends Cubit<FlightState> {
         paymentIntentClientSecret: clientSecret,
         merchantDisplayName: "Aymen",
       ),
+    );
+  }
+
+  void getSeatsReserved() async {
+    final response = await _getSeatsReservedUseCase.call(flight!.id);
+    response.when(
+      success: (response) {
+        seatsReserved = response;
+      },
+      failure: (error) {},
     );
   }
 }

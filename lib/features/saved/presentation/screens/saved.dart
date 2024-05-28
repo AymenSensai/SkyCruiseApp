@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/theming/colors.dart';
+import '../../../../core/utils/error_snackbar.dart';
 import '../../../../core/utils/spacing.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/utils/assets.dart';
@@ -33,21 +35,35 @@ class _SavedScreenState extends State<SavedScreen> {
       body: SafeArea(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-        child: BlocBuilder<SavedCubit, SavedState>(
+        child: BlocConsumer<SavedCubit, SavedState>(
           buildWhen: (previous, current) =>
               current is SavedSuccess || current is SavedLoading,
           builder: (context, state) {
             return state.maybeWhen(
+              savedLoading: () => const Center(
+                child: CircularProgressIndicator(
+                  color: ColorsManager.primary500,
+                ),
+              ),
               savedSuccess: (data) {
                 final flights = data as List<FlightEntity>;
                 if (flights.isEmpty) {
-                  return Center(child: _emptySaved());
+                  return Center(
+                      child: SingleChildScrollView(child: _emptySaved()));
                 } else {
                   return SingleChildScrollView(
                       child: FlightsListView(flights: flights));
                 }
               },
               orElse: () => const SizedBox.shrink(),
+            );
+          },
+          listenWhen: (previous, current) => current is SavedError,
+          listener: (context, state) {
+            state.whenOrNull(
+              savedError: (error) {
+                errorSnackbar(context, error);
+              },
             );
           },
         ),
